@@ -14,7 +14,7 @@ export default class HomePage extends HTMLElement {
       const navbar = await slice.build('Navbar', {
          position: 'fixed',
          logo: {
-            src: '/images/Slice.js-logo.png',
+            src: '/images/logo.png',
             path: '/',
          },
          items: [
@@ -24,15 +24,13 @@ export default class HomePage extends HTMLElement {
          ],
          buttons: [
             {
-               value: 'Change Theme',
+               value: 'Toggle Dark Mode',
                onClickCallback: async () => {
                   const currentTheme = slice.stylesManager.themeManager.currentTheme;
-                  if (currentTheme === 'Slice') {
-                     await slice.setTheme('Light');
-                  } else if (currentTheme === 'Light') {
+                  if (currentTheme === 'Light') {
                      await slice.setTheme('Dark');
                   } else {
-                     await slice.setTheme('Slice');
+                     await slice.setTheme('Light');
                   }
                },
             },

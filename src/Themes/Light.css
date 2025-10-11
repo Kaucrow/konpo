@@ -1,31 +1,47 @@
 :root {
-  --font-primary-color: #000;
-  --font-secondary-color: #474747;
-  /** primary **/
-  --primary-color: #0066ff;
-  --primary-color-rgb: rgb(0, 102, 255);
-  --primary-background-color: #fff;
-  --primary-color-contrast: #fff;
-  --primary-color-shade: #ddd;
-  /** secondary **/
-  --secondary-color: #63ccfd;
-  --secondary-color-rgb: rgb(99, 204, 253);
-  --secondary-background-color: #ddd;
-  --secondary-color-contrast: #fff;
-  /** tertiary **/
-  --tertiary-background-color: #c4c4c4;
-  /** success **/
-  --success-color: #00ff40;
-  --success-contrast: #fff;
-  /** warning **/
-  --warning-color: #ffff40;
-  --warning-contrast: #000;
-  /** danger **/
-  --danger-color: #ff0000;
-  --danger-contrast: #fff;
-  /** medium **/
-  --medium-color: #92949c;
-  --medium--contrast: #000;
+  /* Everforest Light Soft Palette */
 
-  --disabled-color: #7f7f7f;
+  /* Main Text Color (Foreground) */
+  --font-primary-color: #5C6A72; /* fg - Dark, muted text on light background */
+  /* Secondary Text Color (Comments, less important info) */
+  --font-secondary-color: #859289; /* grey1 */
+
+  /** primary - Usually for main interactive elements (buttons, links) **/
+  --primary-color: #A7C080; /* green - A soft, primary accent */
+  --primary-color-rgb: 131, 192, 124;
+  /* Main Background - A warm, off-white/cream */
+  --primary-background-color: #FFFBEB; /* bg_dim */
+  --primary-color-contrast: #5C6A72; /* Primary text color for contrast on green */
+  /* Slightly darker background for borders or subtle highlights */
+  --primary-color-shade: #FDF6E3; /* bg1 */
+
+  /** secondary - For secondary interactive elements or highlights **/
+  --secondary-color: #7FBBB3; /* aqua - A muted teal */
+  --secondary-color-rgb: 127, 187, 179;
+  /* Secondary Background */
+  --secondary-background-color: #FDF6E3; /* bg1 */
+  --secondary-color-contrast: #5C6A72; /* Primary text color for contrast */
+
+  /** tertiary - For tertiary backgrounds like sidebars or inactive panes **/
+  /* Tertiary Background - A slightly darker cream */
+  --tertiary-background-color: #F8F1E2; /* bg2 */
+
+  /** success - Green **/
+  --success-color: #A7C080; /* green */
+  --success-contrast: #5C6A72;
+
+  /** warning - Yellow/Orange tone **/
+  --warning-color: #DBBC7F; /* yellow */
+  --warning-contrast: #5C6A72;
+
+  /** danger - Red/Error tone **/
+  --danger-color: #E67E80; /* red */
+  --danger-contrast: #5C6A72;
+
+  /** medium - Neutral/Muted color for less important text/icons **/
+  --medium-color: #929292; /* A neutral gray */
+  --medium--contrast: #5C6A72;
+
+  /* Disabled color - A subtle, muted gray */
+  --disabled-color: #A9A9A9;
 }

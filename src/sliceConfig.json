@@ -8,13 +8,13 @@
         "click": "right"
     },
     "stylesManager":{
-        "requestedStyles":["sliceStyles"]
+        "requestedStyles": ["sliceStyles"]
     },
     "themeManager": {
-        "enabled":true,
-        "defaultTheme": "Slice",
+        "enabled": true,
+        "defaultTheme": "Light",
         "saveThemeLocally": false,
-        "useBrowserTheme": false
+        "useBrowserTheme": false 
     },
     "logger": {
         "enabled": true,

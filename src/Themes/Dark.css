@@ -1,42 +1,45 @@
 :root {
-  --font-primary-color: #fff;
+  /* Everforest Dark Soft Palette - Based on the new, softer image */
 
-  /** primary **/
-  --primary-color: #0066ff;
-  --primary-color-rgb: rgb(0, 102, 255);
-  /* Se reemplaza el negro puro por un gris muy oscuro, más cálido y agradable */
-  --primary-background-color: #282828; /* antes: #000 */
-  --primary-color-contrast: #000;
-  /* Ajustamos la sombra para que armonice con el fondo aclarado */
-  --primary-color-shade: #383838; /* antes: #222 */
+  /* Text color (Foreground) */
+  --font-primary-color: #D3C6AA; /* fg */
 
-  /** secondary **/
-  --secondary-color: #63ccfd;
-  --secondary-color-rgb: rgb(99, 204, 253);
-  /* Se aclara el fondo secundario para suavizar el efecto general */
-  --secondary-background-color: #333333; /* antes: #222 */
-  --secondary-color-contrast: #fff;
+  /** primary - Usually for main interactive elements (buttons, links) **/
+  --primary-color: #A7C080; /* green from statusline1 */
+  --primary-color-rgb: 167, 192, 128;
+  /* Main Background */
+  --primary-background-color: #232A2E; /* bg_dim */
+  --primary-color-contrast: #232A2E; /* Contrast to primary_color */
+  /* Slightly lighter background for borders or subtle highlights */
+  --primary-color-shade: #343F44; /* bg1 */
 
-  /** tertiary **/
-  /* Se levanta ligeramente el fondo terciario para mantener la coherencia visual */
-  --tertiary-background-color: #555555; /* antes: #444 */
+  /** secondary - For secondary interactive elements or highlights **/
+  --secondary-color: #7FBBB3; /* blue */
+  --secondary-color-rgb: 127, 187, 179;
+  /* Secondary Background */
+  --secondary-background-color: #343F44; /* bg1 */
+  --secondary-color-contrast: #D3C6AA; /* fg for contrast */
 
-  /** success **/
-  --success-color: #00ff40;
-  --success-contrast: #000;
+  /** tertiary - For tertiary backgrounds like sidebars or inactive panes **/
+  /* Tertiary Background */
+  --tertiary-background-color: #3D484D; /* bg2 */
 
-  /** warning **/
-  --warning-color: #ffff40;
-  --warning-contrast: #000;
+  /** success - Green **/
+  --success-color: #A7C080; /* green */
+  --success-contrast: #232A2E;
 
-  /** danger **/
-  --danger-color: #ff0000;
-  --danger-contrast: #000;
+  /** warning - Yellow/Orange tone **/
+  --warning-color: #DBBC7F; /* yellow */
+  --warning-contrast: #232A2E;
 
-  /** medium **/
-  --medium-color: #92949c;
-  --medium-contrast: #fff;
+  /** danger - Red/Error tone **/
+  --danger-color: #E67E80; /* red */
+  --danger-contrast: #232A2E;
 
-  /* Disabled color */
-  --disabled-color: #7f7f7f;
+  /** medium - Neutral/Muted color for less important text/icons **/
+  --medium-color: #859289; /* grey1 */
+  --medium-contrast: #232A2E;
+
+  /* Disabled color - A muted, non-intrusive gray */
+  --disabled-color: #7A8478; /* grey0 */
 }
