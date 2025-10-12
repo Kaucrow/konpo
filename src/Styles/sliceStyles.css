@@ -8,6 +8,7 @@
 body {
   margin: 0;
   background-color: var(--primary-background-color);
+  transition: all 0.2s;
 }
 .caret {
   cursor: pointer;

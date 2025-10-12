@@ -6,6 +6,7 @@ const components = {
   "Checkbox": "Visual",
   "CodeVisualizer": "Visual",
   "Details": "Visual",
+  "Dialog": "Visual",
   "DropDown": "Visual",
   "Grid": "Visual",
   "Icon": "Visual",

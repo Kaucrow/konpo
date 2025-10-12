@@ -6,62 +6,17 @@ slice-home-page {
   color: var(--font-primary-color);
 }
 
-/* Hero section styles */
-.hero-section {
-  position: relative;
-  min-height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 2rem;
-  background-color: var(--primary-background-color);
-  overflow: hidden;
+/* Available decks section */
+.available-decks-section {
+  margin: 0rem 12.5rem;
+  padding-bottom: 2.5rem;
 }
 
-.hero-content {
-  max-width: 800px;
-  z-index: 1;
-}
-
-.hero-logo-container {
-  margin-bottom: 1.5rem;
-}
-
-.hero-logo {
-  max-width: 150px;
-  height: auto;
-  /* Convertir el logo a una silueta */
-  filter: brightness(0) drop-shadow(0 0 8px var(--primary-color));
-}
-
-.hero-title {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  color: var(--font-primary-color);
-}
-
-.hero-title .highlight {
-  color: var(--primary-color);
-}
-
-.hero-subtitle {
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  color: var(--font-secondary-color);
-}
-
-.hero-description {
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
-  line-height: 1.6;
-}
-
-.cta-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 2rem;
+@media (max-width: 768px) {
+  .available-decks-section {
+    margin: 0rem 2.5rem;
+    padding-bottom: 2.5rem;
+  }
 }
 
 /* Features section styles */
@@ -72,7 +27,7 @@ slice-home-page {
 
 .section-title {
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   margin-bottom: 3rem;
   color: var(--primary-color);
 }
