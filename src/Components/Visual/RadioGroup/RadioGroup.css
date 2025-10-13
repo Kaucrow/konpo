@@ -1,0 +1,14 @@
+/* SliceRadioGroup.css */
+
+.radio-group-container {
+  display: flex;
+  /* Default layout: Stacked vertically */
+  flex-direction: column; 
+  gap: 12px;  /* Space between radio buttons */
+  padding: 10px;
+}
+
+.radio-group-container.horizontal {
+  flex-direction: row;
+  gap: 20px;
+}

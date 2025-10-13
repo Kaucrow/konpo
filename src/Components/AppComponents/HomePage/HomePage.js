@@ -51,6 +51,23 @@ export default class HomePage extends HTMLElement {
     });
 
     this.$homePageContainer.appendChild(modesDialog);
+    
+    const radioGroupOptions = [
+      { label: 'Small', value: 'S' },
+      { label: 'Medium', value: 'M' },
+      { label: 'Large', value: 'L' },
+    ];
+
+    const radioGroup = await slice.build('RadioGroup', {
+      options: radioGroupOptions,
+      name: 'sizes',
+      initialValue: 'S',
+      onChange: (selectedVal) => {
+        console.log(`Selected size: ${selectedVal}`);
+      } 
+    });
+
+    this.$homePageContainer.appendChild(radioGroup);
 
     await this.createDecks();      
 

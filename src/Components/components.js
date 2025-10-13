@@ -16,6 +16,8 @@ const components = {
   "MultiRoute": "Visual",
   "Navbar": "Visual",
   "NotFound": "Visual",
+  "RadioButton": "Visual",
+  "RadioGroup": "Visual",
   "Route": "Visual",
   "Select": "Visual",
   "Switch": "Visual",

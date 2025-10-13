@@ -1,0 +1,48 @@
+/* SliceRadioButton.css */
+
+/* Container wraps the entire component */
+.slice_radio_container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px;
+    gap: 10px;
+    font-family: var(--font-family);
+}
+
+/* The custom visual indicator (the circle) */
+.slice_radio_indicator {
+  height: 18px;
+  width: 18px;
+  border: 2px solid var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+  flex-shrink: 0; /* Prevents the indicator from shrinking */
+}
+
+/* The inner dot that appears when checked */
+.slice_radio_indicator::after {
+  content: '';
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* State when the component is checked (using the data-checked attribute on the host element) */
+slice-radio-button[data-checked="true"] .slice_radio_indicator {
+  border-color: var(--primary-color);
+}
+
+slice-radio-button[data-checked="true"] .slice_radio_indicator::after {
+  opacity: 1; /* Show the inner dot */
+}
+
+/* Hover state */
+.slice_radio_container:hover .slice_radio_indicator {
+}
