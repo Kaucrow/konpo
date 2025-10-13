@@ -1,6 +1,34 @@
 .slice_button_container {
   padding: 10px;
 }
+
+.slice_button.variant-ghost {
+  color: var(--primary-color);
+  background-color: transparent;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.slice_button_anim_item {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0%;
+  height: 2.5px;
+  min-height: 2.5px;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.slice_button.variant-ghost:hover .slice_button_anim_item {
+  width: 80%;
+}
+
 .slice_button_value {
   user-select: none;
   cursor: pointer;
@@ -12,14 +40,12 @@
   cursor: pointer;
   overflow: hidden;
   position: relative;
-  max-width: fit-content;
   background-color: var(--primary-color);
   color: var(--primary-color-contrast);
   border-radius: var(--border-radius-slice);
   border: var(--slice-border) solid var(--primary-color);
   font-family: var(--font-family);
   font-weight: bold;
-  min-width: 100%;
   padding: 10px;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;

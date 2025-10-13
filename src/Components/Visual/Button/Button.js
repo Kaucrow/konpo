@@ -17,7 +17,13 @@ export default class Button extends HTMLElement {
       icon: { 
          type: 'object', 
          default: null 
-      }
+      },
+      variant: {
+        type: 'string',
+        default: 'default',
+        required: false,
+        validator: (val) => ['default', 'ghost'].includes(val.toLowerCase()) 
+      },
    };
 
    constructor(props) {
@@ -31,6 +37,8 @@ export default class Button extends HTMLElement {
          this.onClickCallback = props.onClickCallback;
          this.$container.addEventListener('click', async () => await this.onClickCallback());
       }
+
+      this._variant = 'default';
 
       slice.controller.setComponentProps(this, props);
    }
@@ -89,6 +97,43 @@ export default class Button extends HTMLElement {
          }
       }
    }
+
+  get variant() {
+    return this._variant;
+  }
+
+  set variant(val) {
+    const newVariant = (val || 'default').toLowerCase();
+    
+    if (this._variant && this.$button) {
+      this.$button.classList.remove(`variant-${this._variant}`);
+    }
+    
+    this._variant = newVariant;
+    
+    if (this.$button) {
+      this.$button.classList.add(`variant-${this._variant}`);
+      this._handleAnimItem();
+    }
+  }
+
+  _handleAnimItem() {
+    const existingAnim = this.$button.querySelector('.slice_button_anim_item');
+    
+    if (this._variant === 'ghost') {
+      // If it's a ghost button and the anim element doesn't exist, create it.
+      if (!existingAnim) {
+        const animItem = document.createElement('div');
+        animItem.classList.add('slice_button_anim_item');
+        this.$button.appendChild(animItem);
+      }
+    } else {
+      // If it's not a ghost button and the anim element exists, remove it.
+      if (existingAnim) {
+        this.$button.removeChild(existingAnim);
+      }
+    }
+  }
 }
 
 customElements.define('slice-button', Button);

@@ -40,7 +40,8 @@ export default class HomePage extends HTMLElement {
     });
 
     const modesDialogOpener = await slice.build('Button', {
-      value: 'Dialog'
+      value: 'Dialog',
+      variant: 'ghost'
     });
 
     const modesBody = await slice.build('Button', { value: 'elatla' });
