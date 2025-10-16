@@ -12,6 +12,42 @@ export default class HomePage extends HTMLElement {
   }
 
   async init() {
+    /*const modesDialogOpener = await slice.build('Button', {
+      value: 'Dialog',
+      variant: 'ghost'
+    });*/
+
+    const modesDialogBody = document.createElement('div');
+
+    const modesRadioOptions = [
+      { label: 'Free mode: Browse all flashcards.', value: '0' },
+      { label: 'Training mode: Study flashcards marked as "hard".', value: '1' },
+      { label: 'Specific category mode: Study flashcards by category.', value: '2' },
+    ];
+
+    const modesRadio = await slice.build('RadioGroup', {
+      options: modesRadioOptions,
+      name: 'modes',
+      initialValue: '0',
+      onChange: (selectedVal) => {
+        console.log(`Selected mode: ${selectedVal}`);
+      }
+    });
+
+    const modesDialogTitle = document.createElement('h3');
+    modesDialogTitle.textContent = 'Select a mode';
+    modesDialogTitle.style = 'margin-left: 1em;';
+
+    modesDialogBody.appendChild(modesDialogTitle);
+    modesDialogBody.appendChild(modesRadio);
+
+    const modesDialog = await slice.build('Dialog', {
+      /*openerElement: modesDialogOpener,*/
+      bodyElement: modesDialogBody
+    });
+
+    this.$homePageContainer.appendChild(modesDialog);
+
     // Create the navbar
     const navbar = await slice.build('Navbar', {
       position: 'fixed',
@@ -26,49 +62,24 @@ export default class HomePage extends HTMLElement {
       ],
       buttons: [
         {
+          value: 'Mode',
+          onClickCallback: async () => {
+            modesDialog.open = true;
+          }
+        },
+        {
           value: 'Toggle Dark Mode',
           onClickCallback: async () => {
             const currentTheme = slice.stylesManager.themeManager.currentTheme;
             if (currentTheme === 'Light') {
-                await slice.setTheme('Dark');
+              await slice.setTheme('Dark');
             } else {
-                await slice.setTheme('Light');
+              await slice.setTheme('Light');
             }
           },
         },
       ],
     });
-
-    const modesDialogOpener = await slice.build('Button', {
-      value: 'Dialog',
-      variant: 'ghost'
-    });
-
-    const modesBody = await slice.build('Button', { value: 'elatla' });
-
-    const modesDialog = await slice.build('Dialog', {
-      openerElement: modesDialogOpener,
-      bodyElement: modesBody
-    });
-
-    this.$homePageContainer.appendChild(modesDialog);
-    
-    const radioGroupOptions = [
-      { label: 'Small', value: 'S' },
-      { label: 'Medium', value: 'M' },
-      { label: 'Large', value: 'L' },
-    ];
-
-    const radioGroup = await slice.build('RadioGroup', {
-      options: radioGroupOptions,
-      name: 'sizes',
-      initialValue: 'S',
-      onChange: (selectedVal) => {
-        console.log(`Selected size: ${selectedVal}`);
-      } 
-    });
-
-    this.$homePageContainer.appendChild(radioGroup);
 
     await this.createDecks();      
 
