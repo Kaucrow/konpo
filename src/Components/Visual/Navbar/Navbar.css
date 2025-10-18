@@ -2,6 +2,10 @@ body {
   padding-bottom: 60px;
 }
 
+body.navbar-expanded {
+  overflow: hidden;
+}
+
 .slice_nav_header {
   font-family: var(--font-family);
   width: 100%;
@@ -11,6 +15,7 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  position: relative;
 }
 
 .slice_nav_bar {
@@ -23,12 +28,21 @@ body {
   top: 0;
 }
 
-.nav_bar_sections {
+.nav_bar_sections_wide {
   display: flex;
   flex: 1;
   justify-content: space-between;
   align-items: center;
-  margin: 0.25em 0.5em;  
+  margin: 0.25em 0.5em;
+  width: 100%;
+}
+
+.nav_bar_sections_mobile {
+  display: none;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.25em 0.5em;
 }
 
 .nav_bar_spacer {
@@ -54,51 +68,70 @@ body {
   position: relative;
 }
 
-.mobile_menu_button,
+/* Expanded navbar styles */
+.slice_nav_bar_expanded {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--primary-color);
+  transition: transform 0.3s ease;
+  z-index: 999;
+  transform: translateX(100%);
+}
+
+.slice_nav_bar_expanded.show {
+  transform: translateX(0);
+}
+
+/* Button base styles - HIDE BOTH BY DEFAULT ON DESKTOP */
 .mobile_close_menu {
-  visibility: hidden;
   position: absolute;
   right: 0px;
-  margin-right: 25px;
+  margin-right: 15px;
+  z-index: 1000;
+  display: none; /* Hide both by default */
+}
+
+.mobile_menu_button {
+  margin-right: 15px;
+  z-index: 1000;
+  display: none;
 }
 
 .mobile_close_menu {
-  top: 25px;
+  top: 20px;
 }
 
 @media only screen and (max-width: 1020px) {
-  .slice_nav_bar {
-    z-index: 1;
-    list-style: none;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
+  .nav_bar_sections_wide {
+    display: none;
+  }
+
+  .nav_bar_sections_mobile {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background-color: var(--primary-color);
-    transform: translateX(100%);
-  }
-  
-  .nav_bar_sections {
-    flex-direction: column;
-    justify-content: center !important; /* Always center in mobile */
-  }
-  
-  .nav_bar_menu {
-    flex-direction: column;
-    justify-content: center !important; /* Always center in mobile */
   }
 
-  .nav_bar_spacer {
-    display: none; /* Hide spacers in mobile */
+  /* Show menu button, hide close button by default in mobile */
+  .mobile_menu_button {
+    display: block; /* Show menu button */
   }
-
-  .mobile_menu_button,
+  
   .mobile_close_menu {
-    visibility: visible;
+    display: none; /* Hide close button */
+  }
+  
+  /* When expanded nav is shown - hide menu button, show close button */
+  .mobile_menu_button.hide {
+    display: none;
+  }
+  
+  .mobile_close_menu.show {
+    display: block;
   }
 }

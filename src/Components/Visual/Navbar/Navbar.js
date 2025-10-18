@@ -11,35 +11,42 @@ export default class Navbar extends HTMLElement {
       default: 'static', 
       required: false 
     },
-    direction: { 
+    direction: {
       type: 'string', 
       default: 'normal', 
       required: false 
     }
   };
 
-  constructor(props) {
-    super();
-    slice.attachTemplate(this);
+constructor(props) {
+  super();
+  slice.attachTemplate(this);
 
-    this.$header = this.querySelector('.slice_nav_header');
-    this.$navBar = this.querySelector('.slice_nav_bar');
-    this.$sectionsContainer = this.querySelector('.nav_bar_sections');
+  this.$header = this.querySelector('.slice_nav_header');
+  this.$navBar = this.querySelector('.slice_nav_bar');
+  this.$wideSectionsContainer = this.querySelector('.nav_bar_sections_wide');
+  this.$mobileSectionsContainer = this.querySelector('.nav_bar_sections_mobile');
+  this.$navBarExpanded = this.querySelector('.slice_nav_bar_expanded');
 
-    this.$mobileMenu = this.querySelector('.slice_mobile_menu');
-    this.$mobileButton = this.querySelector('.mobile_menu_button');
-    this.$closeMenu = this.querySelector('.mobile_close_menu');
+  this.$mobileButton = this.querySelector('.mobile_menu_button');
+  this.$closeMenu = this.querySelector('.mobile_close_menu');
 
-    this.$mobileButton.addEventListener('click', () => {
-        this.$navBar.style.transform = 'translateX(0%)';
-    });
+  this.$mobileButton.addEventListener('click', () => {
+    document.body.classList.add('navbar-expanded');
+    this.$navBarExpanded.classList.add('show');
+    this.$closeMenu.classList.add('show');
+    this.$mobileButton.classList.add('hide');
+  });
 
-    this.$closeMenu.addEventListener('click', () => {
-        this.$navBar.style.transform = 'translateX(100%)';
-    });
+  this.$closeMenu.addEventListener('click', () => {
+    document.body.classList.remove('navbar-expanded');
+    this.$navBarExpanded.classList.remove('show');
+    this.$closeMenu.classList.remove('show');
+    this.$mobileButton.classList.remove('hide');
+  });
 
-    slice.controller.setComponentProps(this, props);
-  }
+  slice.controller.setComponentProps(this, props);
+}
 
   async init() {
     if (this.sections && this.sections.length > 0) {
@@ -50,12 +57,12 @@ export default class Navbar extends HTMLElement {
   async renderSections() {
     if (this._sectionsRendered) return;
 
-    if (!this.$sectionsContainer) {
-      console.error('Sections container not found');
+    if (!this.$wideSectionsContainer || !this.$mobileSectionsContainer) {
+      console.error('Sections container(s) not found');
       return;
     }
 
-    this.$sectionsContainer.innerHTML = '';
+    this.$wideSectionsContainer.innerHTML = '';
 
     for (const sectionGroup of this.sections) {
       if (Array.isArray(sectionGroup)) {
@@ -70,14 +77,70 @@ export default class Navbar extends HTMLElement {
     const sectionGroup = document.createElement('div');
     sectionGroup.classList.add('nav-section-group');
 
+    // Track which elements should go to mobile
+    const mobileNavbarElements = [];
+    const expandedNavbarElements = [];
+
     for (const elementConfig of elements) {
       const element = await this.createElement(elementConfig);
       if (element) {
         sectionGroup.appendChild(element);
+        
+        // If element should be in mobile navbar, add to mobile elements array
+        if (elementConfig.mobileNavbar === true) {
+          mobileNavbarElements.push(elementConfig);
+        }
+        
+        if (elementConfig.expandedNavbar === true) {
+          expandedNavbarElements.push(elementConfig);
+        }
       }
     }
 
-    this.$sectionsContainer.appendChild(sectionGroup);
+    this.$wideSectionsContainer.appendChild(sectionGroup);
+    
+    // If there are mobile elements, create a corresponding mobile section group
+    if (mobileNavbarElements.length > 0) {
+      await this.createMobileNavbarSectionGroup(mobileNavbarElements);
+    }
+
+    if (expandedNavbarElements.length > 0) {
+      await this.createExpandedNavbarSectionGroup(expandedNavbarElements);
+    }
+  }
+
+  async createMobileNavbarSectionGroup(elements) {
+    if (!this.$mobileSectionsContainer) return;
+
+    const mobileSectionGroup = document.createElement('div');
+    mobileSectionGroup.classList.add('mobile-nav-section-group');
+
+    for (const elementConfig of elements) {
+      const mobileElement = await this.createElement(elementConfig);
+      if (mobileElement) {
+        mobileElement.classList.add('mobile-nav-item');
+        mobileSectionGroup.appendChild(mobileElement);
+      }
+    }
+
+    this.$mobileSectionsContainer.appendChild(mobileSectionGroup);
+  }
+
+  async createExpandedNavbarSectionGroup(elements) {
+    if (!this.$navBarExpanded) return;
+
+    const expandedSectionGroup = document.createElement('div');
+    expandedSectionGroup.classList.add('expanded-nav-section-group');
+
+    for (const elementConfig of elements) {
+      const expandedElement = await this.createElement(elementConfig);
+      if (expandedElement) {
+        expandedElement.classList.add('expanded-nav-item');
+        expandedSectionGroup.appendChild(expandedElement);
+      }
+    }
+
+    this.$navBarExpanded.appendChild(expandedSectionGroup);
   }
 
   // --- Element creation functions ---

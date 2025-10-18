@@ -12,11 +12,6 @@ export default class HomePage extends HTMLElement {
   }
 
   async init() {
-    /*const modesDialogOpener = await slice.build('Button', {
-      value: 'Dialog',
-      variant: 'ghost'
-    });*/
-
     const modesDialogBody = document.createElement('div');
 
     const modesRadioOptions = [
@@ -42,7 +37,6 @@ export default class HomePage extends HTMLElement {
     modesDialogBody.appendChild(modesRadio);
 
     const modesDialog = await slice.build('Dialog', {
-      /*openerElement: modesDialogOpener,*/
       bodyElement: modesDialogBody
     });
 
@@ -54,6 +48,7 @@ export default class HomePage extends HTMLElement {
       sections: [
         [
           {
+            mobileNavbar: true,
             type: 'logo',
             src: '/images/logo.png',
             path: '/'
@@ -61,6 +56,7 @@ export default class HomePage extends HTMLElement {
         ],
         [
           {
+            expandedNavbar: true,
             type: 'button',
             value: 'Mode',
             variant: 'ghost',
@@ -74,6 +70,7 @@ export default class HomePage extends HTMLElement {
         ],
         [
           {
+            expandedNavbar: true,
             type: 'custom',
             component: 'Switch',
             props: {
@@ -141,13 +138,6 @@ export default class HomePage extends HTMLElement {
     const decksList = await slice.build('TreeView', {
       items: decks
     });
-
-    const testBtn = await slice.build('Button', {
-      value: 'elatla',
-      variant: 'ghost'
-    });
-
-    this.$deckListContainer.appendChild(testBtn);
 
     this.$deckListContainer.appendChild(decksList);
   }
