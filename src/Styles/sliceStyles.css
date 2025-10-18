@@ -3,7 +3,7 @@
 :root {
   --font-family: Fira Mono, monospace;
   --border-radius-slice: 5px;
-  --slice-border: 1px;
+  --slice-border: 2px;
 }
 body {
   margin: 0;

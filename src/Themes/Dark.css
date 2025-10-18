@@ -3,6 +3,8 @@
 
   /* Text color (Foreground) */
   --font-primary-color: #D3C6AA; /* fg */
+  /* Secondary Text Color (Comments, less important info) */
+  --font-secondary-color: #C2B089; /* fg */
 
   /** primary - Usually for main interactive elements (buttons, links) **/
   --primary-color: #A7C080; /* green from statusline1 */

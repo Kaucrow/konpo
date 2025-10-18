@@ -1,180 +1,233 @@
 export default class Navbar extends HTMLElement {
 
-   static props = {
-      logo: { 
-         type: 'object', 
-         default: null, 
-         required: false 
-      },
-      items: { 
-         type: 'array', 
-         default: [], 
-         required: false 
-      },
-      buttons: { 
-         type: 'array', 
-         default: [], 
-         required: false 
-      },
-      position: { 
-         type: 'string', 
-         default: 'static', 
-         required: false 
-      },
-      direction: { 
-         type: 'string', 
-         default: 'normal', 
-         required: false 
+  static props = {
+    sections: {
+      type: 'array',
+      default: [],
+      required: false
+    },
+    position: { 
+      type: 'string', 
+      default: 'static', 
+      required: false 
+    },
+    direction: { 
+      type: 'string', 
+      default: 'normal', 
+      required: false 
+    }
+  };
+
+  constructor(props) {
+    super();
+    slice.attachTemplate(this);
+
+    this.$header = this.querySelector('.slice_nav_header');
+    this.$navBar = this.querySelector('.slice_nav_bar');
+    this.$sectionsContainer = this.querySelector('.nav_bar_sections');
+
+    this.$mobileMenu = this.querySelector('.slice_mobile_menu');
+    this.$mobileButton = this.querySelector('.mobile_menu_button');
+    this.$closeMenu = this.querySelector('.mobile_close_menu');
+
+    this.$mobileButton.addEventListener('click', () => {
+        this.$navBar.style.transform = 'translateX(0%)';
+    });
+
+    this.$closeMenu.addEventListener('click', () => {
+        this.$navBar.style.transform = 'translateX(100%)';
+    });
+
+    slice.controller.setComponentProps(this, props);
+  }
+
+  async init() {
+    if (this.sections && this.sections.length > 0) {
+      await this.renderSections();
+    }
+  }
+
+  async renderSections() {
+    if (this._sectionsRendered) return;
+
+    if (!this.$sectionsContainer) {
+      console.error('Sections container not found');
+      return;
+    }
+
+    this.$sectionsContainer.innerHTML = '';
+
+    for (const sectionGroup of this.sections) {
+      if (Array.isArray(sectionGroup)) {
+        await this.createSectionGroup(sectionGroup);
       }
-   };
+    }
 
-   constructor(props) {
-      super();
-      slice.attachTemplate(this);
+    this._sectionsRendered = true;
+  }
 
-      this.$header = this.querySelector('.slice_nav_header');
-      this.$navBar = this.querySelector('.slice_nav_bar');
-      this.$menu = this.querySelector('.nav_bar_menu');
-      this.$buttonsContainer = this.querySelector('.nav_bar_buttons');
-      this.$logoContainer = this.querySelector('.logo_container');
-      this.$mobileMenu = this.querySelector('.slice_mobile_menu');
-      this.$mobileButton = this.querySelector('.mobile_menu_button');
-      this.$closeMenu = this.querySelector('.mobile_close_menu');
+  async createSectionGroup(elements) {
+    const sectionGroup = document.createElement('div');
+    sectionGroup.classList.add('nav-section-group');
 
-      this.$mobileButton.addEventListener('click', () => {
-         this.$navBar.style.transform = 'translateX(0%)';
-      });
-
-      this.$closeMenu.addEventListener('click', () => {
-         this.$navBar.style.transform = 'translateX(100%)';
-      });
-
-      slice.controller.setComponentProps(this, props);
-   }
-
-   async init() {
-      if (this.items && this.items.length > 0) {
-         await this.addItems(this.items);
+    for (const elementConfig of elements) {
+      const element = await this.createElement(elementConfig);
+      if (element) {
+        sectionGroup.appendChild(element);
       }
-      if (this.buttons && this.buttons.length > 0) {
-         this.buttons.forEach(async (item) => {
-            await this.addButton(item, this.$buttonsContainer);
-         });
+    }
+
+    this.$sectionsContainer.appendChild(sectionGroup);
+  }
+
+  // --- Element creation functions ---
+
+  async createElement(config) {
+    if (!config || typeof config !== 'object') {
+      console.warn(`Invalid element configuration: ${config}`);
+      return null;
+    }
+
+    switch (config.type) {
+      case 'logo': return await this.createLogo(config);
+      case 'link': return await this.createLink(config);
+      case 'dropdown': return await this.createDropdown(config);
+      case 'button': return await this.createButton(config);
+      case 'custom': return await this.createCustomElement(config);
+      default: return await this.handleGenericElement(config);
+    }
+  }
+
+  async createLogo(config) {
+    const logoContainer = document.createElement('div');
+    logoContainer.classList.add('logo-container');
+
+    const logoLink = document.createElement('a');
+    logoLink.classList.add('logo-link');
+    logoLink.href = config.path || '/';
+
+    const img = document.createElement('img');
+    img.classList.add('logo-img');
+    img.src = config.src;
+    img.alt = config.alt || 'Logo';
+
+    logoLink.appendChild(img);
+    logoContainer.appendChild(logoLink);
+    return logoContainer;
+  }
+
+  async createTextLink(config) {
+    const link = await slice.build('Link', {
+      text: config.text,
+      path: config.path,
+      classes: 'item nav-link',
+    });
+
+    const listItem = document.createElement('li');
+    listItem.appendChild(link);
+
+    const hover = document.createElement('div');
+    hover.classList.add('anim-item');
+    listItem.appendChild(hover);
+
+    return listItem;
+  }
+
+  async createDropdown(config) {
+    const dropdown = await slice.build('DropDown', {
+      label: config.text,
+      options: config.options
+    });
+    dropdown.classList.add('item', 'nav-dropdown');
+
+    const listItem = document.createElement('li');
+    listItem.appendChild(dropdown);
+
+    const hover = document.createElement('div');
+    hover.classList.add('anim-item');
+    listItem.appendChild(hover);
+
+    return listItem;
+  }
+
+  async createButton(config) {
+    const button = await slice.build('Button', {
+      value: config.value,
+      variant: config.variant,
+      icon: config.icon,
+      onClickCallback: config.onClickCallback,
+      styleOverrides: config.style
+    });
+
+    return button;
+  }
+
+  async createCustomElement(config) {
+    if (config.html) {
+      const container = document.createElement('div');
+      container.innerHTML = config.html;
+      return container.firstElementChild;
+    }
+
+    if (config.component) {
+      return await slice.build(config.component, config.props || {});
+    }
+
+    return null;
+  }
+
+  async handleGenericElement(config) {
+    if (config.text && config.path) {
+      return await this.createTextLink(config);
+    }
+
+    if (config.value) {
+      return await this.createButton(config);
+    }
+
+    console.warn('Unknown element configuration: ', config);
+    return null;
+  }
+
+  // --- Getters/Setters ---
+
+  get sections() {
+    return this._sections;
+  }
+
+  set sections(value) {
+    if (JSON.stringify(this._sections) !== JSON.stringify(value)) {
+      this._sections = value;
+      this._sectionsRendered = false;
+
+      if (this.$sectionsContainer && this.isConnected) {
+        this.renderSections(this.sections, this.$sectionsContainer, 'main');
+        this._sectionsRendered = true;
       }
+    }
+  }
 
-      if (window.screen.width >= 1020 && this.items && this.logo && this.buttons) {
-         this.$menu.style.maxWidth = '60%';
-      }
-   }
+  get position() {
+    return this._position;
+  }
 
-   async addItems(items) {
-      for (let i = 0; i < items.length; i++) {
-         await this.addItem(items[i], this.$menu);
-      }
-   }
+  set position(value) {
+    this._position = value;
+    if (value === 'fixed') {
+      this.classList.add('nav_bar_fixed');
+    }
+  }
 
-   get position() {
-      return this._position;
-   }
+  get direction() {
+    return this._direction;
+  }
 
-   set position(value) {
-      this._position = value;
-      if (value === 'fixed') {
-         this.classList.add('nav_bar_fixed');
-      }
-   }
-
-   get logo() {
-      return this._logo;
-   }
-
-   set logo(value) {
-      this._logo = value;
-      // ✅ CORREGIDO: Validar que value no sea null antes de usarlo
-      if (!value) return;
-      
-      const img = document.createElement('img');
-      img.src = value.src;
-      this.$logoContainer.appendChild(img);
-      this.$logoContainer.href = value.path;
-   }
-
-   get items() {
-      return this._items;
-   }
-
-   set items(values) {
-      this._items = values;
-   }
-
-   get buttons() {
-      return this._buttons;
-   }
-
-   set buttons(values) {
-      this._buttons = values;
-   }
-
-   get direction() {
-      return this._direction;
-   }
-
-   set direction(value) {
-      this._direction = value;
-      // ✅ MEJORADO: Validar valor antes de aplicar clase
-      if (value === 'reverse') {
-         this.$header.classList.add('direction-row-reverse');
-      }
-   }
-
-   async addItem(value, addTo) {
-      const item = document.createElement('li');
-      const hover = document.createElement('div');
-      hover.classList.add('anim-item');
-      
-      if (!value.type) {
-         value.type = 'text';
-      }
-      
-      if (value.type === 'text') {
-         const link = await slice.build('Link', {
-            text: value.text,
-            path: value.path,
-            classes: 'item',
-         });
-         item.appendChild(link);
-      }
-      
-      if (value.type === 'dropdown') {
-         const d = await slice.build('DropDown', {
-            label: value.text,
-            options: value.options,
-         });
-         d.classList.add('item');
-         item.appendChild(d);
-      }
-      
-      item.appendChild(hover);
-      addTo.appendChild(item);
-   }
-
-   async addButton(value, addTo) {
-      if (!value.color) {
-         value.color = {
-            label: 'var(--primary-color-rgb)',
-            button: 'var(--primary-background-color)',
-         };
-      }
-      
-      const button = await slice.build('Button', {
-         value: value.value,
-         customColor: value.color,
-         icon: value.icon,
-         onClickCallback: value.onClickCallback,
-      });
-      
-      addTo.appendChild(button);
-   }
+  set direction(value) {
+    this._direction = value;
+    if (value === 'reverse') {
+      this.$header.classList.add('direction-row-reverse');
+    }
+  }
 }
 
 window.customElements.define('slice-nav-bar', Navbar);

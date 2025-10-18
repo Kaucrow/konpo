@@ -1,5 +1,5 @@
 body {
-  padding-top: 80px;
+  padding-bottom: 60px;
 }
 
 .slice_nav_header {
@@ -13,84 +13,45 @@ body {
   align-items: center;
 }
 
-.direction-row-reverse {
-  flex-direction: row-reverse;
-}
-
-.nav_bar_fixed {
-  z-index: 100;
-  width: 100%;
-  left: 0;
-  top: 0;
-  position: fixed;
-}
-
 .slice_nav_bar {
   transition: transform 0.3s ease;
   width: 100%;
-  justify-content: center;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   left: 0;
   top: 0;
 }
 
+.nav_bar_sections {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.25em 0.5em;  
+}
+
+.nav_bar_spacer {
+  flex: 1;
+}
+
 .nav_bar_menu {
-  width: 100%;
-  overflow-y: hidden;
-  overflow-x: auto;
   display: flex;
   align-items: center;
-  justify-content: center;
-  list-style: none;
+  justify-content: flex-end;
+  flex: 1;
 }
 
-.slice_nav_header .item {
-  cursor: pointer;
-  font-weight: bold;
-  text-decoration: none;
-  color: var(--primary-color-contrast);
-  border-radius: var(--border-radius-slice);
-}
-
-.anim-item {
-  position: absolute;
-  bottom: 0;
-  width: 0%;
-  height: 1.5px;
-  min-height: 1.5px;
-  border-radius: 5px;
-  background-color: var(--primary-color-contrast);
-  transition: width 0.3s ease, left 0.3s ease;
+/* Elements styles */
+.logo-img {
+  max-height: 50px;
 }
 
 .slice_nav_header li {
-  margin: 0px 25px;
-  padding: 10px;
   display: flex;
+  margin: 0px 25px;
   justify-content: center;
   position: relative;
-}
-
-.slice_nav_header li:hover .anim-item {
-  width: 100%;
-  left: 0;
-}
-
-.slice_nav_header .logo_container {
-  padding: 5px;
-}
-
-.logo_container img {
-  pointer-events: none;
-  user-select: none;
-  max-height: 50px;
-  max-width: 200px;
-}
-
-.nav_bar_buttons {
-  justify-content: flex-end;
-  display: flex;
 }
 
 .mobile_menu_button,
@@ -121,10 +82,21 @@ body {
     background-color: var(--primary-color);
     transform: translateX(100%);
   }
-  .nav_bar_menu,
-  .nav_bar_buttons {
+  
+  .nav_bar_sections {
     flex-direction: column;
+    justify-content: center !important; /* Always center in mobile */
   }
+  
+  .nav_bar_menu {
+    flex-direction: column;
+    justify-content: center !important; /* Always center in mobile */
+  }
+
+  .nav_bar_spacer {
+    display: none; /* Hide spacers in mobile */
+  }
+
   .mobile_menu_button,
   .mobile_close_menu {
     visibility: visible;

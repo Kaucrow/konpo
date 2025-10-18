@@ -1,9 +1,18 @@
+.slice_button {
+  --button-primary-color: var(--primary-color);
+  --button-primary-color-contrast: var(--primary-color-contrast);
+  --button-border-radius: var(--border-radius-slice);
+  --button-border-width: var(--slice-border);
+  --button-font-family: var(--font-family);
+  --button-font-size: 1em;
+}
+
 .slice_button_container {
   padding: 10px;
 }
 
 .slice_button.variant-ghost {
-  color: var(--primary-color);
+  color: var(--button-primary-color);
   background-color: transparent;
   border: none;
   position: relative;
@@ -21,7 +30,7 @@
   height: 2.5px;
   min-height: 2.5px;
   border-radius: 5px;
-  background-color: var(--primary-color);
+  background-color: var(--button-primary-color);
   transition: width 0.3s ease;
 }
 
@@ -40,12 +49,13 @@
   cursor: pointer;
   overflow: hidden;
   position: relative;
-  background-color: var(--primary-color);
-  color: var(--primary-color-contrast);
-  border-radius: var(--border-radius-slice);
-  border: var(--slice-border) solid var(--primary-color);
-  font-family: var(--font-family);
+  background-color: var(--button-primary-color);
+  color: var(--button-primary-color-contrast);
+  border-radius: var(--button-border-radius);
+  border: var(--button-border-width) solid var(--button-primary-color);
+  font-family: var(--button-font-family);
   font-weight: bold;
+  font-size: var(--button-font-size);
   padding: 10px;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;

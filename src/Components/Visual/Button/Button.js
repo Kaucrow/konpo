@@ -10,10 +10,6 @@ export default class Button extends HTMLElement {
          type: 'function', 
          default: null 
       },
-      customColor: { 
-         type: 'object', 
-         default: null 
-      },
       icon: { 
          type: 'object', 
          default: null 
@@ -24,6 +20,10 @@ export default class Button extends HTMLElement {
         required: false,
         validator: (val) => ['default', 'ghost'].includes(val.toLowerCase()) 
       },
+      styleOverrides: {
+        tpye: 'object',
+        default: null
+      }
    };
 
    constructor(props) {
@@ -55,68 +55,6 @@ export default class Button extends HTMLElement {
       }
    }
 
-   get icon() {
-      return this._icon;
-   }
-
-   set icon(value) {
-      this._icon = value;
-      if (!this.$icon) return;
-      this.$icon.name = value.name;
-      this.$icon.iconStyle = value.iconStyle;
-   }
-
-   get value() {
-      return this._value;
-   }
-
-   set value(value) {
-      this._value = value;
-      this.$value.textContent = value;
-   }
-
-   get customColor() {
-      return this._customColor;
-   }
-
-   set customColor(value) {
-      this._customColor = value;
-      if (!value) return;
-
-      // Mantener la misma API: { button: 'color', label: 'color' }
-      if (value.button) {
-         this.$button.style.backgroundColor = value.button;
-         this.$button.style.borderColor = value.button;
-      }
-      if (value.label) {
-         this.$button.style.color = value.label;
-         this.$value.style.color = value.label;
-         // También aplicar al icono si existe
-         if (this.$icon) {
-            this.$icon.style.color = value.label;
-         }
-      }
-   }
-
-  get variant() {
-    return this._variant;
-  }
-
-  set variant(val) {
-    const newVariant = (val || 'default').toLowerCase();
-    
-    if (this._variant && this.$button) {
-      this.$button.classList.remove(`variant-${this._variant}`);
-    }
-    
-    this._variant = newVariant;
-    
-    if (this.$button) {
-      this.$button.classList.add(`variant-${this._variant}`);
-      this._handleAnimItem();
-    }
-  }
-
   _handleAnimItem() {
     const existingAnim = this.$button.querySelector('.slice_button_anim_item');
     
@@ -133,6 +71,56 @@ export default class Button extends HTMLElement {
         this.$button.removeChild(existingAnim);
       }
     }
+  }
+
+  // --- Getters/Setters ---
+
+  get icon() {
+    return this._icon;
+  }
+
+  set icon(value) {
+    this._icon = value;
+    if (!this.$icon) return;
+    this.$icon.name = value.name;
+    this.$icon.iconStyle = value.iconStyle;
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  set value(value) {
+    this._value = value;
+    this.$value.textContent = value;
+  }
+
+  get variant() {
+    return this._variant;
+  }
+
+  set variant(val) {
+    if (!val) return;
+
+    if (this._variant && this.$button) {
+      this.$button.classList.remove(`variant-${this._variant}`);
+    }
+    
+    this._variant = val;
+
+    if (this.$button) {
+      this.$button.classList.add(`variant-${this._variant}`);
+      this._handleAnimItem();
+    }
+  }
+
+  set styleOverrides(overrides) {
+    if (!overrides || !this.$button) return;
+
+    Object.entries(overrides).forEach(([property, value]) => {
+      const cssProperty = property.replace(/([A-Z])/g, '-$1').toLowerCase();
+      this.$button.style.setProperty(cssProperty, value);
+    });
   }
 }
 

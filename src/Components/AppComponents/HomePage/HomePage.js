@@ -51,34 +51,46 @@ export default class HomePage extends HTMLElement {
     // Create the navbar
     const navbar = await slice.build('Navbar', {
       position: 'fixed',
-      logo: {
-        src: '/images/logo.png',
-        path: '/',
-      },
-      items: [
-        { text: 'Mode', path: '/' },
-        { text: 'Add deck', path: '/' },
-        { text: 'Options', path: '/Playground' },
-      ],
-      buttons: [
-        {
-          value: 'Mode',
-          onClickCallback: async () => {
-            modesDialog.open = true;
+      sections: [
+        [
+          {
+            type: 'logo',
+            src: '/images/logo.png',
+            path: '/'
           }
-        },
-        {
-          value: 'Toggle Dark Mode',
-          onClickCallback: async () => {
-            const currentTheme = slice.stylesManager.themeManager.currentTheme;
-            if (currentTheme === 'Light') {
-              await slice.setTheme('Dark');
-            } else {
-              await slice.setTheme('Light');
+        ],
+        [
+          {
+            type: 'button',
+            value: 'Mode',
+            variant: 'ghost',
+            style: {
+              '--button-primary-color': 'var(--primary-color-contrast)'
+            },
+            onClickCallback: () => {
+              modesDialog.open = true;
             }
-          },
-        },
-      ],
+          }
+        ],
+        [
+          {
+            type: 'custom',
+            component: 'Switch',
+            props: {
+              label: 'Dark Mode',
+              customColor: 'var(--primary-color-contrast)',
+              toggle: async (val) => {
+                const currentTheme = slice.stylesManager.themeManager.currentTheme;
+                if (currentTheme === 'Light') {
+                  await slice.setTheme('Dark');
+                } else {
+                  await slice.setTheme('Light');
+                }
+              }
+            }
+          }
+        ],
+      ]
     });
 
     await this.createDecks();      
@@ -129,6 +141,13 @@ export default class HomePage extends HTMLElement {
     const decksList = await slice.build('TreeView', {
       items: decks
     });
+
+    const testBtn = await slice.build('Button', {
+      value: 'elatla',
+      variant: 'ghost'
+    });
+
+    this.$deckListContainer.appendChild(testBtn);
 
     this.$deckListContainer.appendChild(decksList);
   }

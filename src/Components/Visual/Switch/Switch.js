@@ -2,28 +2,32 @@ export default class Switch extends HTMLElement {
 
    static props = {
       checked: { 
-         type: 'boolean', 
-         default: false 
+        type: 'boolean', 
+        default: false 
       },
       disabled: { 
-         type: 'boolean', 
-         default: false 
+        type: 'boolean', 
+        default: false 
       },
       label: { 
-         type: 'string', 
+        type: 'string', 
          default: null 
       },
       labelPlacement: { 
-         type: 'string', 
-         default: 'right' 
+        type: 'string', 
+        default: 'right' 
       },
       customColor: { 
-         type: 'string', 
-         default: null 
+        type: 'string', 
+        default: null 
       },
       toggle: { 
-         type: 'function', 
-         default: null 
+        type: 'function', 
+        default: null 
+      },
+      styleOverrides: {
+        type: 'object',
+        default: null
       }
    };
 
@@ -33,11 +37,15 @@ export default class Switch extends HTMLElement {
       this.$switch = this.querySelector('.slice_switch');
       this.$checkbox = this.querySelector('input');
       
-      // Handle toggle callback
-      if (props.toggle) {
-         this.toggle = props.toggle;
-         this.$checkbox.addEventListener('click', () => this.toggle());
-      }
+      this.$checkbox.addEventListener('click', (e) => {
+        this.checked = e.target.checked;
+
+        // Handle toggle callback
+        if (props.toggle) {
+          this.toggle = props.toggle;
+          this.toggle(this.checked)
+        }
+      });
 
       slice.controller.setComponentProps(this, props);
    }
@@ -61,11 +69,6 @@ export default class Switch extends HTMLElement {
       if (this.customColor) {
          this.applyCustomColor();
       }
-
-      // Set up change listener
-      this.$checkbox.addEventListener('change', (e) => {
-         this.checked = e.target.checked;
-      });
    }
 
    createLabel() {
@@ -174,6 +177,15 @@ export default class Switch extends HTMLElement {
 
    set toggle(value) {
       this._toggle = value;
+   }
+
+   set styleOverrides(overrides) {
+    if (!overrides || !this.$button) return;
+
+    Object.entries(overrides).forEach(([property, value]) => {
+      const cssProperty = property.replace(/([A-Z])/g, '-$1').toLowerCase();
+      this.$button.style.setProperty(cssProperty, value);
+    });
    }
 }
 

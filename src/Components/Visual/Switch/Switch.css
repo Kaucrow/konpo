@@ -1,12 +1,28 @@
 .slice_switch {
-  --button-width: calc(var(--button-height) * 2);
-  --button-height: 1.8em;
-  --toggle-diameter: calc(var(--button-width) / 3);
-  --button-toggle-offset: calc(
-    (var(--button-height) - var(--toggle-diameter)) / 2
+  --switch-button-width: calc(var(--switch-button-height) * 2);
+  --switch-button-height: 1.8em;
+  --switch-toggle-diameter: calc(var(--switch-button-width) / 3);
+  --switch-button-toggle-offset: calc(
+    (var(--switch-button-height) - var(--switch-toggle-diameter)) / 2
   );
-  --toggle-shadow-offset: 10px;
-  --toggle-wider: 1.8em;
+  --switch-toggle-shadow-offset: 10px;
+  --switch-toggle-wider: 1.8em;
+
+  --switch-font-family: var(--font-family);
+
+  --switch-border-width: var(--slice-border);
+
+  --switch-primary-background-color: var(--primary-background-color);
+  --switch-primary-color-contrast: var(--primary-color-contrast);
+  --switch-primary-color: var(--font-secondary-color);
+  --switch-border-color: var(--primary-color-contrast);
+
+  --switch-label-color: var(--success-contrast);
+
+  --switch-checked-background-color: var(--success-color);
+
+  --switch-disabled-color: var(--disabled-color);
+  --switch-disabled-background-color: var(--primary-color-shade);
 }
 
 .slice_switch_container {
@@ -22,18 +38,18 @@
 
 .switch_label {
   margin: 5px;
-  font-family: var(--font-family);
-  color: var(--font-primary-color);
+  font-family: var(--switch-font-family);
+  color: var(--switch-label-color);
 }
 
 .slider {
   cursor: pointer;
   display: inline-block;
-  width: var(--button-width);
-  height: var(--button-height);
-  background-color: var(--secondary-background-color);
-  border: var(--slice-border) solid var(--primary-color);
-  border-radius: calc(var(--button-height) / 2);
+  width: var(--switch-button-width);
+  height: var(--switch-button-height);
+  background-color: var(--switch-primary-background-color);
+  border: var(--switch-border-width) solid var(--switch-border-color);
+  border-radius: calc(var(--switch-button-height) / 2);
   position: relative;
   transition: 0.3s all ease-in-out;
 }
@@ -41,25 +57,25 @@
 .slider::after {
   content: "";
   display: inline-block;
-  width: var(--toggle-diameter);
-  height: var(--toggle-diameter);
-  background-color: #fff;
-  border-radius: calc(var(--toggle-diameter) / 2);
+  width: var(--switch-toggle-diameter);
+  height: var(--switch-toggle-diameter);
+  background-color: var(--switch-primary-color);
+  border-radius: calc(var(--switch-toggle-diameter) / 2);
   position: absolute;
-  top: var(--button-toggle-offset);
-  transform: translateX(var(--button-toggle-offset));
+  top: var(--switch-button-toggle-offset);
+  transform: translateX(var(--switch-button-toggle-offset));
   transition: 0.3s all ease-in-out;
 }
 
 .slice_switch input[type="checkbox"]:checked + .slider {
-  background-color: var(--success-color);
-  border: var(--slice-border) solid var(--success-color);
+  background-color: var(--switch-checked-background-color);
+  border: var(--switch-border-width) solid var(--switch-checked-background-color);
 }
 
 .slice_switch input[type="checkbox"]:checked + .slider::after {
   transform: translateX(
     calc(
-      var(--button-width) - var(--toggle-diameter) - var(--button-toggle-offset)
+      var(--switch-button-width) - var(--switch-toggle-diameter) - var(--switch-button-toggle-offset)
     )
   );
 }
@@ -69,8 +85,8 @@
 }
 
 .disabled {
-  border-color: var(--disabled-color);
-  background-color: var(--primary-color-shade);
-  color: var(--disabled-color);
+  border-color: var(--switch-disabled-color);
+  background-color: var(--switch-disabled-background-color);
+  color: var(--switch-disabled-color);
   cursor: not-allowed;
 }
