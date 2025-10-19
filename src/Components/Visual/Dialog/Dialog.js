@@ -155,6 +155,8 @@ export default class Dialog extends HTMLElement {
   set bodyElement(element) {
     if (!element) return;
 
+    this.$bodySlot.innerHTML = '';
+
     this._bodyElement = element;
 
     element.setAttribute('slot', 'body');

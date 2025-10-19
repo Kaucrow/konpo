@@ -45,6 +45,12 @@ body.navbar-expanded {
   margin: 0.25em 0.5em;
 }
 
+.mobile-nav-section-group,
+.nav-section-group {
+  display: flex;
+  flex-direction: row;
+}
+
 .nav_bar_spacer {
   flex: 1;
 }

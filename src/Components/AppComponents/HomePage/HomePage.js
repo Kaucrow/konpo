@@ -42,6 +42,72 @@ export default class HomePage extends HTMLElement {
 
     this.$homePageContainer.appendChild(modesDialog);
 
+    const addDeckDialog = await slice.build('Dialog', {});
+
+    const addDeck1 = document.createElement('div');
+    addDeck1.classList.add('add-deck-1');
+
+    const addDeck1Title = document.createElement('h3');
+    addDeck1Title.textContent = 'Add a deck';
+    addDeck1Title.style = 'margin-left: 1em;';
+
+    const addDeck1ButtonsContainer = document.createElement('div');
+    addDeck1ButtonsContainer.classList.add('add-deck-1-buttons-container');
+
+    const importDeckButton = await slice.build('Button', {
+      value: "Import"
+    });
+
+    const createDeckContainer = document.createElement('div');
+
+    const createDeckTitle = document.createElement('h3');
+    createDeckTitle.textContent = 'Create a new deck';
+    createDeckTitle.style = 'margin-left: 1em;';
+
+    const createDeckContent = document.createElement('div');
+    createDeckContent.classList.add('create-deck-content');
+
+    const createDeckInput = await slice.build('Input', {
+      placeholder: 'Deck name'
+    });
+    createDeckInput.style = 'min-width: 70%;';
+
+    const submitDeckNameButton = await slice.build('Button', {
+      value: 'Create deck',
+      onClickCallback: () => {
+        addDeckDialog.open = false;
+      }
+    });
+    submitDeckNameButton.style = 'width: 100%';
+
+    createDeckContainer.appendChild(createDeckTitle);
+
+    createDeckContent.appendChild(createDeckInput);
+    createDeckContent.appendChild(submitDeckNameButton);
+
+    createDeckContainer.appendChild(createDeckContent);
+
+    const createDeckButton = await slice.build('Button', {
+      value: "Create new",
+      onClickCallback: () => {
+        addDeckDialog.bodyElement = createDeckContainer;
+      }
+    });
+
+    addDeck1ButtonsContainer.appendChild(importDeckButton);
+    addDeck1ButtonsContainer.appendChild(createDeckButton);
+
+    addDeck1.appendChild(addDeck1Title);
+    addDeck1.appendChild(addDeck1ButtonsContainer);
+    
+    addDeckDialog.bodyElement = addDeck1;
+
+    addDeckDialog.onCloseCallback = () => {
+      addDeckDialog.bodyElement = addDeck1;
+    };
+
+    this.$homePageContainer.appendChild(addDeckDialog);
+
     // Create the navbar
     const navbar = await slice.build('Navbar', {
       position: 'fixed',
@@ -65,6 +131,18 @@ export default class HomePage extends HTMLElement {
             },
             onClickCallback: () => {
               modesDialog.open = true;
+            }
+          },
+          {
+            expandedNavbar: true,
+            type: 'button',
+            value: 'Add a deck',
+            variant: 'ghost',
+            style: {
+              '--button-primary-color': 'var(--primary-color-contrast)'
+            },
+            onClickCallback: () => {
+              addDeckDialog.open = true;
             }
           }
         ],
@@ -106,6 +184,7 @@ export default class HomePage extends HTMLElement {
   }
 
   async createDecks() {
+
     const decks = [
       {
         value: 'French',
