@@ -28,7 +28,6 @@ export default class Deck extends HTMLElement {
     this.$name.appendChild(name);
 
     const button = await slice.build('Button', {
-      value: '',
       variant: 'ghost',
       icon: {
         name: 'edit',

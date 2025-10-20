@@ -9,7 +9,11 @@ body {
   margin: 0;
   background-color: var(--primary-background-color);
   transition: all 0.2s;
+  user-select: none;
+  color: var(--font-primary-color);
+  font-family: var(--font-family);
 }
+
 .caret {
   cursor: pointer;
   width: 0;

@@ -7,7 +7,7 @@
   --button-font-size: 1em;
 }
 
-.slice_button_container {
+.slice_button_container:not:has(.slice_button.variant-ghost) {
   padding: 10px;
 }
 
@@ -22,7 +22,6 @@
   padding: 0;
   padding-top: 10px;
   padding-bottom: 10px;
-  border-radius: 0;
 }
 
 .slice_button_anim_item {
@@ -33,13 +32,12 @@
   width: 0%;
   height: 2.5px;
   min-height: 2.5px;
-  border-radius: 5px;
   background-color: var(--button-primary-color);
   transition: width 0.3s ease;
 }
 
 .slice_button.variant-ghost:hover .slice_button_anim_item {
-  width: 100%;
+  width: 95%;
 }
 
 .slice_button_value {
@@ -85,4 +83,8 @@
   margin: 0;
   opacity: 1;
   transition: 0s;
+}
+
+.slice_button_icon {
+  margin-right: 0.25em;
 }

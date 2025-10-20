@@ -1,6 +1,6 @@
 const routes = [
    // Rutas principales
-   { path: '/', component: 'HomePage' },
+   { path: '/', component: 'App' },
    { path: '/404', component: 'NotFound' },
    {
       path: '/Docum/${category}/${id}',

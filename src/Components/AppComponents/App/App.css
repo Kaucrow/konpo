@@ -1,1 +1,30 @@
 /* Styles for App component */
+
+/* Home page styles */
+slice-home-page {
+  display: block;
+  width: 100%;
+  font-family: var(--font-family);
+  color: var(--font-primary-color);
+}
+
+.add-deck-1-buttons-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-deck-content {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-deck-1 {
+  display: flex;
+  flex-direction: column;
+}

@@ -3,7 +3,7 @@ export default class Button extends HTMLElement {
    static props = {
       value: { 
          type: 'string', 
-         default: 'Button', 
+         default: null, 
          required: false 
       },
       onClickCallback: { 
@@ -52,6 +52,7 @@ export default class Button extends HTMLElement {
             color: 'currentColor',
          });
          this.$button.insertBefore(this.$icon, this.$value);
+         this.$icon.classList.add('slice_button_icon');
       }
    }
 
@@ -80,6 +81,8 @@ export default class Button extends HTMLElement {
   }
 
   set icon(value) {
+    if (!value) return;
+
     this._icon = value;
     if (!this.$icon) return;
     this.$icon.name = value.name;
@@ -91,6 +94,9 @@ export default class Button extends HTMLElement {
   }
 
   set value(value) {
+    if (!value) return;
+
+    console.log(value);
     this._value = value;
     this.$value.textContent = value;
   }
