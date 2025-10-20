@@ -184,13 +184,14 @@ export default class HomePage extends HTMLElement {
   }
 
   async createDecks() {
+    const testDeck = await slice.build('Deck', { name: 'Deck 1' });
 
     const decks = [
       {
         value: 'French',
         items: [
           {
-            value: 'Deck 1',
+            value: testDeck,
             onClickCallback: () => { console.log('Opening French deck 1...'); }
           },
           {

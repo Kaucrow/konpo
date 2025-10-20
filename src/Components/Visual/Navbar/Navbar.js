@@ -221,6 +221,7 @@ constructor(props) {
       onClickCallback: config.onClickCallback,
       styleOverrides: config.style
     });
+    button.classList.add('nav-button');
 
     return button;
   }

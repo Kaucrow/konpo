@@ -49,9 +49,17 @@ export default class TreeItem extends HTMLElement {
    }
 
    set value(value) {
+    if (value instanceof HTMLElement) {
+      // If the value is an element, clear existing text and append the element
+      this.$item.textContent = '';
+      this.$item.appendChild(value);
+      this._value = value;
+    } else {
+      // Otherwise, treat it as a standard text label
       this.$item.textContent = value;
       this._value = value;
-   }
+    }
+  }
 
    get value() {
       return this._value;

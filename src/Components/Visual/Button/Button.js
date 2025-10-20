@@ -48,7 +48,7 @@ export default class Button extends HTMLElement {
          this.$icon = await slice.build('Icon', {
             name: this.icon.name,           // ✅ CORREGIDO: usar this.icon.name
             iconStyle: this.icon.iconStyle, // ✅ AÑADIDO: pasar también iconStyle
-            size: '20px',
+            size: this.icon.size || '20px',
             color: 'currentColor',
          });
          this.$button.insertBefore(this.$icon, this.$value);

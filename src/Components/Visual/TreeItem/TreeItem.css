@@ -30,7 +30,9 @@
    height: auto; /* Esto se ajustará después de la transición */
 }
 
+/*
 .slice_tree_item:hover {
    background-color: #ffffff25;
    color: var(--primary-color);
 }
+*/

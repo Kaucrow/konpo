@@ -19,6 +19,10 @@
   overflow: hidden;
   display: flex;
   justify-content: center;
+  padding: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 0;
 }
 
 .slice_button_anim_item {
@@ -35,7 +39,7 @@
 }
 
 .slice_button.variant-ghost:hover .slice_button_anim_item {
-  width: 80%;
+  width: 100%;
 }
 
 .slice_button_value {

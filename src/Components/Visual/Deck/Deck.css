@@ -1,0 +1,8 @@
+/* Styles for Deck component */
+.deck-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}

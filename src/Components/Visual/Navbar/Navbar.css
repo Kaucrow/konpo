@@ -67,6 +67,14 @@ body.navbar-expanded {
   max-height: 50px;
 }
 
+.nav-button {
+  margin: 0 0.5em;
+}
+
+.slice_nav_bar_expanded.show .nav-button { 
+  margin: 0;
+}
+
 .slice_nav_header li {
   display: flex;
   margin: 0px 25px;

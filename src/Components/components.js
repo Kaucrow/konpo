@@ -1,10 +1,12 @@
 const components = {
+  "App": "AppComponents",
   "HomePage": "AppComponents",
   "Playground": "AppComponents",
   "Button": "Visual",
   "Card": "Visual",
   "Checkbox": "Visual",
   "CodeVisualizer": "Visual",
+  "Deck": "Visual",
   "Details": "Visual",
   "Dialog": "Visual",
   "DropDown": "Visual",
