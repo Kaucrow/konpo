@@ -12,8 +12,6 @@ export default class HomePage extends HTMLElement {
   }
 
   async init() {
-
-
     await this.createDecks();      
   }
 

@@ -1,9 +1,11 @@
 const components = {
   "App": "AppComponents",
+  "DeckEdit": "AppComponents",
   "HomePage": "AppComponents",
   "Playground": "AppComponents",
   "Button": "Visual",
   "Card": "Visual",
+  "CardList": "Visual",
   "Checkbox": "Visual",
   "CodeVisualizer": "Visual",
   "Deck": "Visual",

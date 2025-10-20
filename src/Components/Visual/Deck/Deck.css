@@ -7,3 +7,11 @@
   margin: 0;
   padding: 0;
 }
+
+.edit-dialog-buttons-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  align-items: center;
+  justify-content: center;
+}

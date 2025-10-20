@@ -92,7 +92,8 @@ export default class App extends HTMLElement {
 
     const multiRoute = await slice.build('MultiRoute', {
       routes: [
-        { path: '/', component: 'HomePage' }
+        { path: '/', component: 'HomePage' },
+        { path: '/deck-edit', component: 'DeckEdit' }
       ]
     });
 

@@ -1,0 +1,24 @@
+/* Styles for CardList component */
+
+.cardlist {
+  border: 1px solid var(--font-primary-color);
+  line-height: 0;
+}
+
+.sides-container {
+  display: grid;
+  grid-template-columns: 40% 40% 20%;
+  text-align: center;
+}
+
+.fields-container {
+  display: grid;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+  text-align: center;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+  text-align: center;
+}

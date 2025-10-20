@@ -27,15 +27,55 @@ export default class Deck extends HTMLElement {
 
     this.$name.appendChild(name);
 
-    const button = await slice.build('Button', {
+    const editDialog = await this.createEditDialog();
+
+    const editButton = await slice.build('Button', {
       variant: 'ghost',
       icon: {
         name: 'edit',
         size: 'large'
+      },
+      onClickCallback: () => { editDialog.open = true; }
+    });
+
+    this.appendChild(editDialog);
+    this.$button.appendChild(editButton);
+  }
+
+  async createEditDialog() {
+    const editDialogBodyContainer = document.createElement('div');
+
+    const editDialogTitle = document.createElement('h3');
+    editDialogTitle.textContent = this.name;
+
+    editDialogBodyContainer.appendChild(editDialogTitle);
+
+    const editDialogButtonsContainer = document.createElement('div');
+    editDialogButtonsContainer.classList.add('edit-dialog-buttons-container');
+
+    const exportButton = await slice.build('Button', {
+      value: 'Export'
+    });
+
+    const editButton = await slice.build('Button', {
+      value: 'Edit',
+      onClickCallback: () => {
+        editDialog.open = false;
+        slice.router.navigate('/deck-edit?id=0');
       }
     });
 
-    this.$button.appendChild(button);
+    editDialogButtonsContainer.appendChild(exportButton);
+    editDialogButtonsContainer.appendChild(editButton);
+
+    editDialogBodyContainer.appendChild(editDialogButtonsContainer);
+
+    const editDialog = await slice.build('Dialog', {
+        bodyElement: editDialogBodyContainer
+      }
+    );
+
+    return editDialog;
   }
 
   // --- Getters/Setters ---
