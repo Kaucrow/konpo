@@ -5,6 +5,7 @@ const components = {
   "Playground": "AppComponents",
   "Button": "Visual",
   "Card": "Visual",
+  "CardEditor": "Visual",
   "CardList": "Visual",
   "Checkbox": "Visual",
   "CodeVisualizer": "Visual",

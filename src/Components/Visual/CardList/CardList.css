@@ -1,24 +1,27 @@
 /* Styles for CardList component */
 
 .cardlist {
-  border: 1px solid var(--font-primary-color);
+  display: flex;
+  flex-direction: column;
+  padding: 0 1em;
+  padding-bottom: 1em;
+  overflow-y: auto;
+}
+
+.categories-container {
+  margin: 0 1em;
+}
+
+.names-container {
   line-height: 0;
 }
 
-.sides-container {
-  display: grid;
-  grid-template-columns: 40% 40% 20%;
-  text-align: center;
+.card {
+  padding: 1em;
+  border-radius: var(--border-radius-slice);
 }
 
-.fields-container {
-  display: grid;
-  grid-template-columns: 20% 20% 20% 20% 20%;
-  text-align: center;
-}
-
-.cards-container {
-  display: grid;
-  grid-template-columns: 20% 20% 20% 20% 20%;
-  text-align: center;
+.card.selected {
+  color: var(--primary-background-color);
+  background-color: var(--font-primary-color);
 }
