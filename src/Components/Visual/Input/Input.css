@@ -25,8 +25,8 @@
   font-family: var(--font-family);
   border: var(--slice-border) solid var(--primary-color);
   background-color: var(--primary-background-color);
-  margin-bottom: 25px;
-  margin-top: 25px;
+  margin-bottom: 0px;
+  margin-top: 0px;
   position: relative;
 }
 .slice_input_placeholder {

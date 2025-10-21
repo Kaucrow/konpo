@@ -3,7 +3,7 @@
 :root {
   --font-family: Fira Mono, monospace;
   --border-radius-slice: 5px;
-  --slice-border: 2px;
+  --slice-border: 1px;
 }
 body {
   margin: 0;
@@ -12,6 +12,7 @@ body {
   user-select: none;
   color: var(--font-primary-color);
   font-family: var(--font-family);
+  overflow-y: hidden;
 }
 
 .caret {

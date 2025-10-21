@@ -1,1 +1,32 @@
 /* Styles for DeckEdit component */
+.deckedit {
+  padding: 1em;
+}
+
+.sections-container {
+  height: 85vh;
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+.left-section-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-y: auto;
+  border: var(--slice-border) solid var(--font-primary-color);
+  border-radius: var(--border-radius-slice);
+}
+
+.add-card-button-container {
+  margin-left: 1em;
+  margin-bottom: 1em;
+}
+
+.card-editor-container {
+  min-width: 40%;
+  overflow-y: auto;
+  border: var(--slice-border) solid var(--font-primary-color);
+  border-radius: var(--border-radius-slice);
+}
