@@ -3,20 +3,12 @@
 .cardeditor {
   display: flex;
   flex-direction: column;
-  padding: 0 1em;
-  padding-bottom: 1em;
 }
 
 .cardeditor-content {
   display: flex;
   flex-direction: column;
   gap: 1em;
-}
-
-.separator {
-  height: 2px;
-  border-radius: var(--border-radius-slice);
-  background-color: var(--primary-color-shade);
 }
 
 .section-title {

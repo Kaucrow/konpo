@@ -34,10 +34,31 @@ export default class DeckEdit extends HTMLElement {
 
     this.$cardListContainer.appendChild(cardList);
 
+    const addCardBody = document.createElement('div');
+    addCardBody.classList.add('add-card-body');
+
+    const addCardEditor = await slice.build('CardEditor', {});
+
+    const addCardBodyTitle = document.createElement('h3');
+    addCardBodyTitle.textContent = 'Add card';
+
+    addCardBody.appendChild(addCardBodyTitle);
+    addCardBody.appendChild(addCardEditor);
+
+    const addCardDialog = await slice.build('Dialog', {
+      bodyElement: addCardBody      
+    });
+    addCardDialog.classList.add('add-card-dialog');
+
+    this.appendChild(addCardDialog);
+
     const addCardButton = await slice.build('Button', {
       value: 'Add card',
       icon: {
         name: 'circle-plus'
+      },
+      onClickCallback: () => {
+        addCardDialog.open = true;
       }
     });
     this.$addCardButtonContainer.appendChild(addCardButton);

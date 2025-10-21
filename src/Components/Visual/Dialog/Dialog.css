@@ -41,6 +41,8 @@ slice-dialog:not([data-state="open"]) .slice_dialog_overlay {
 
 /* The dialog panel itself */
 .slice_dialog_content {
+  display: inline-block;
+
   position: fixed;
   top: 50%;
   left: 50%;
