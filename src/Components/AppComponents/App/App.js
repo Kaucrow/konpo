@@ -1,3 +1,5 @@
+import { adduDeck, adduLanguage, getDecks, getLanguages } from "../../../App/indexedDB.js";
+
 export default class App extends HTMLElement {
 
   static props = {
@@ -158,7 +160,7 @@ export default class App extends HTMLElement {
     const createDeckButton = await slice.build('Button', {
       value: "Create new",
       onClickCallback: async () => {
-        const createDeckContainer = await this.createDeck();
+        const createDeckContainer = await this.selectLanguage(addDeckDialog);
         addDeckDialog.bodyElement = createDeckContainer;
       }
     });
@@ -180,12 +182,31 @@ export default class App extends HTMLElement {
     return addDeckDialog;
   }
 
-  async createDeck(){
+  async createDeck(addDeckDialog, language){
     const createDeckContainer = document.createElement('div');
 
+    // Title
     const createDeckTitle = document.createElement('h3');
     createDeckTitle.textContent = 'Create a new deck';
     createDeckTitle.style = 'margin-left: 1em;';
+
+    //Decks
+    let decks = await getDecks(language);
+    let items = []
+    console.log('hola')
+    console.log(decks);
+    Object.keys(decks).forEach(val =>{
+      let item = {value: val, path:""}
+      items.push(item);
+    })
+
+    const treeview = await slice.build("TreeView", {
+      items: items,
+      onClickCallback: async (item) => {
+          console.log("Clicked:", item.value);
+      }
+    });
+
 
     const createDeckContent = document.createElement('div');
     createDeckContent.classList.add('create-deck-content');
@@ -198,12 +219,16 @@ export default class App extends HTMLElement {
     const submitDeckNameButton = await slice.build('Button', {
       value: 'Create deck',
       onClickCallback: () => {
+        adduDeck(language, createDeckInput.value, 1);
         addDeckDialog.open = false;
       }
     });
     submitDeckNameButton.style = 'width: 100%';
 
+    //apenddChilds
+
     createDeckContainer.appendChild(createDeckTitle);
+    createDeckContainer.appendChild(treeview);
 
     createDeckContent.appendChild(createDeckInput);
     createDeckContent.appendChild(submitDeckNameButton);
@@ -212,15 +237,64 @@ export default class App extends HTMLElement {
     return createDeckContainer;
   }
 
-  selectLanguage () {
-    const selectLangugageContainer = document.createElement('div');
+  async selectLanguage (addDeckDialog) {
+    const selectLanguageContainer = document.createElement('div');
 
+    //title
     const title = document.createElement('h3');
     title.textContent = 'Select a Language';
-    createDeckTitle.style = 'margin-left: 1em;';
+    title.style = 'margin-left: 1em;';
+    selectLanguageContainer.appendChild(title);
 
-    const createDeckContent = document.createElement('div');
-    createDeckContent.classList.add('create-deck-content');
+    // content
+    const createLanguageContent = document.createElement('div');
+    createLanguageContent.classList.add('create-deck-content');
+
+    //Languages
+    let languages = await getLanguages();
+    let items = []
+    Object.values(languages).forEach(val =>{
+      let item = {value: val.id, path:""}
+      items.push(item);
+    })
+
+    const treeview = await slice.build("TreeView", {
+      items: items,
+      onClickCallback: async (item) => {
+          console.log("Clicked:", item.value);
+          let decks = await this.createDeck(addDeckDialog, item.value);
+          addDeckDialog.bodyElement = decks;
+      }
+    });
+    selectLanguageContainer.appendChild(treeview);
+    /*Object.values(languages).forEach(val=>{
+      let languageName = document.createElement('h4');
+      languageName.textContent = val.name;
+      languageName.style = 'margin-left: 1em;';
+      selectLanguageContainer.appendChild(languageName);
+    })*/
+
+    // Input
+    const addLanguageInput = await slice.build('Input', {
+      placeholder: 'New Language :D'
+    });
+    addLanguageInput.style = 'min-width: 70%;';
+
+    const submitNewLanguage = await slice.build('Button', {
+      value: 'Add Language',
+      onClickCallback: async () => {
+        await adduLanguage(addLanguageInput.value);
+        let decks = await this.createDeck(addDeckDialog, addLanguageInput.value);
+        addDeckDialog.bodyElement = decks;
+      }
+    });
+
+    // apendChilds
+    createLanguageContent.appendChild(addLanguageInput);
+    createLanguageContent.appendChild(submitNewLanguage);
+
+    selectLanguageContainer.appendChild(createLanguageContent);
+    return selectLanguageContainer;
   }
 }
 
