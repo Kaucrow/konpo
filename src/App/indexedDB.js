@@ -22,20 +22,20 @@ await sessions.openDatabase();
 
 //Languages
 
-export function adduLanguage (_name, _pref) {
-    languages.addItem({name:_name,id:_pref, deck: {}})
+export function adduLanguage (name) {
+    languages.addItem({id:name, deck: {}})
 }
 
 export async function getLanguages(){
     let _languages = await languages.getAllItems()
-    let result = _languages.map(({name, id}) => ({name, id}));
+    let result = _languages.map(({id}) => ({id}));
     return result;
 }
 
 //Decks
 
-export function adduDeck (pref, name, difficulty) {
-    let language = languages.getItem(pref);
+export async function adduDeck (lang, name, difficulty) {
+    let language = await languages.getItem(lang);
     language.deck[name] = {
         difficulty: difficulty,
         creationDate : new Date().toLocaleDateString(),
@@ -46,14 +46,14 @@ export function adduDeck (pref, name, difficulty) {
     languages.updateItem(language);
 }
 
-export async function getDecks (pref){
-    let decks = await languages.getItem(pref);
+export async function getDecks (name){
+    let decks = await languages.getItem(name);
     return decks.deck;
 }
 
 // Update when you practice a deck
-export function practiceUpdate (pref, _deck) {
-    let language = languages.getItem(pref);
+export async function practiceUpdate (name, _deck) {
+    let language = await languages.getItem(name);
     language.deck[_deck].lastPractice = new Date().toLocaleDateString();
     language.deck[_deck].practiceAttemps = language.deck[_deck].practiceAttemps+1;
     languages.updateItem(language);
@@ -61,8 +61,8 @@ export function practiceUpdate (pref, _deck) {
 
 //Words / phrases
 
-export function adduWord (pref, deck, word, _translation, difficulty, _example, _notes) {
-    let language = languages.getItem(pref);
+export async function adduWord (name, deck, word, _translation, difficulty, _example, _notes) {
+    let language = await languages.getItem(name);
     language.deck[deck].words[word] = {
         translation : _translation,
         difficulty: difficulty,
@@ -72,14 +72,14 @@ export function adduWord (pref, deck, word, _translation, difficulty, _example, 
     languages.updateItem(language);
 }
 
-export async function getWords (pref, _deck){
-    let language = await languages.getItem(pref);
+export async function getWords (name, _deck){
+    let language = await languages.getItem(name);
     return language.deck[_deck].words;
 }
 
 //get words by difficulty
-export async function getHardWords(pref) {
-    let language = await languages.getItem(pref);
+export async function getHardWords(name) {
+    let language = await languages.getItem(name);
     let words = [];
     Object.values(language.deck).forEach(deck => {
         Object.values(deck.words || {}).forEach(word => {
