@@ -190,7 +190,7 @@ export default class App extends HTMLElement {
     createDeckTitle.textContent = 'Create a new deck';
     createDeckTitle.style = 'margin-left: 1em;';
 
-    //Decks
+    //Existing decks
     let decks = await getDecks(language);
     let items = []
     console.log('hola')
@@ -207,7 +207,19 @@ export default class App extends HTMLElement {
       }
     });
 
+    //star Rating
+    const starRatingContainer = document.createElement('div');
+    starRatingContainer.style = 'display:flex; gap:10px;'
 
+    const starRatingTitle = document.createElement('h4');
+    starRatingTitle.textContent = 'Difficulty: ';
+    starRatingTitle.style = 'margin-left: 1em; margin-top:0.5em; font-weight:normal';
+
+    const starRating = await slice.build('StarRating', {});
+
+    starRatingContainer.appendChild(starRatingTitle);
+    starRatingContainer.appendChild(starRating);
+    // Input
     const createDeckContent = document.createElement('div');
     createDeckContent.classList.add('create-deck-content');
 
@@ -219,8 +231,13 @@ export default class App extends HTMLElement {
     const submitDeckNameButton = await slice.build('Button', {
       value: 'Create deck',
       onClickCallback: () => {
-        adduDeck(language, createDeckInput.value, 1);
-        addDeckDialog.open = false;
+        if (starRating.value == 0 || createDeckInput.value ==''){
+          console.log('StarRating and Input is needed')
+        }
+        else{
+          adduDeck(language, createDeckInput.value, starRating.value);
+          addDeckDialog.open = false;
+        }
       }
     });
     submitDeckNameButton.style = 'width: 100%';
@@ -229,6 +246,8 @@ export default class App extends HTMLElement {
 
     createDeckContainer.appendChild(createDeckTitle);
     createDeckContainer.appendChild(treeview);
+
+    createDeckContainer.appendChild(starRatingContainer);
 
     createDeckContent.appendChild(createDeckInput);
     createDeckContent.appendChild(submitDeckNameButton);
