@@ -25,6 +25,7 @@ const components = {
   "RadioGroup": "Visual",
   "Route": "Visual",
   "Select": "Visual",
+  "StarRating": "Visual",
   "Switch": "Visual",
   "TreeItem": "Visual",
   "TreeView": "Visual",

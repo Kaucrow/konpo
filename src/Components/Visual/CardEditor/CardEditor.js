@@ -19,6 +19,7 @@ export default class CardEditor extends HTMLElement {
     this.$frontDescriptionContainer = this.querySelector('.front-description-container');
     this.$backNameContainer = this.querySelector('.back-name-container');
     this.$backDescriptionContainer = this.querySelector('.back-description-container');
+    this.$difficultyContainer = this.querySelector('.difficulty-container');
 
     this.$applyChangesButtonContainer = this.querySelector('.apply-changes-button-container');
 
@@ -33,6 +34,9 @@ export default class CardEditor extends HTMLElement {
 
     this.backDescriptionInput = await slice.build('Input', {});
     this.$backDescriptionContainer.appendChild(this.backDescriptionInput);
+
+    this.difficultySelector = await slice.build('StarRating', {});
+    this.$difficultyContainer.appendChild(this.difficultySelector);
 
     const applyChangesButton = await slice.build('Button', {
       value: 'Save',

@@ -1,0 +1,44 @@
+/* Styles for StarRating component */
+
+.slice_starrating {
+  --starrating-primary-color: var(--primary-color, #ffc107);
+  --starrating-inactive-color: #e0e0e0;
+  --starrating-border-radius: var(--border-radius-slice, 4px);
+  --starrating-font-family: var(--font-family, sans-serif);
+  --starrating-size: 24px;
+}
+
+.slice_starrating_container {
+  display: inline-block;
+}
+
+.slice_starrating {
+  display: flex;
+  align-items: center;
+  font-family: var(--starrating-font-family);
+}
+
+.slice_starrating_stars {
+  display: flex;
+  gap: 4px;
+}
+
+.slice_starrating_star {
+  cursor: pointer;
+  color: var(--starrating-inactive-color);
+  font-size: var(--starrating-size);
+  transition: color 0.2s ease, transform 0.1s ease;
+  user-select: none;
+}
+
+.slice_starrating_star.active {
+  color: var(--starrating-primary-color);
+}
+
+.slice_starrating_star:hover {
+  transform: scale(1.1);
+}
+
+.slice_starrating_star:active {
+  transform: scale(0.95);
+}
