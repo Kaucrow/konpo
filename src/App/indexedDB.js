@@ -1,5 +1,3 @@
-import Slice from '/Slice/Slice.js';
-
 export const languages = await slice.build("IndexedDbManager", {
    databaseName: "languages",
    storeName: "languages",
@@ -28,8 +26,8 @@ export function adduLanguage (_name, _pref) {
     languages.addItem({name:_name,id:_pref, deck: {}})
 }
 
-export function getLanguages(){
-    let _languages = languages.getAllItems()
+export async function getLanguages(){
+    let _languages = await languages.getAllItems()
     let result = _languages.map(({name, id}) => ({name, id}));
     return result;
 }
@@ -48,8 +46,8 @@ export function adduDeck (pref, name, difficulty) {
     languages.updateItem(language);
 }
 
-export function getDecks (pref){
-    let decks = languages.getItem(pref);
+export async function getDecks (pref){
+    let decks = await languages.getItem(pref);
     return decks.deck;
 }
 
@@ -74,14 +72,14 @@ export function adduWord (pref, deck, word, _translation, difficulty, _example, 
     languages.updateItem(language);
 }
 
-export function getWords (pref, _deck){
-    let language = languages.getItem(pref);
+export async function getWords (pref, _deck){
+    let language = await languages.getItem(pref);
     return language.deck[_deck].words;
 }
 
 //get words by difficulty
-export function getHardWords(pref) {
-    let language = languages.getItem(pref);
+export async function getHardWords(pref) {
+    let language = await languages.getItem(pref);
     let words = [];
     Object.values(language.deck).forEach(deck => {
         Object.values(deck.words || {}).forEach(word => {
