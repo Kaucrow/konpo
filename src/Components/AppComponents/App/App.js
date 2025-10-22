@@ -155,6 +155,32 @@ export default class App extends HTMLElement {
       value: "Import"
     });
 
+    const createDeckButton = await slice.build('Button', {
+      value: "Create new",
+      onClickCallback: async () => {
+        const createDeckContainer = await this.createDeck();
+        addDeckDialog.bodyElement = createDeckContainer;
+      }
+    });
+
+    addDeck1ButtonsContainer.appendChild(importDeckButton);
+    addDeck1ButtonsContainer.appendChild(createDeckButton);
+
+    addDeck1.appendChild(addDeck1Title);
+    addDeck1.appendChild(addDeck1ButtonsContainer);
+    
+    addDeckDialog.bodyElement = addDeck1;
+
+    addDeckDialog.onCloseCallback = () => {
+      addDeckDialog.bodyElement = addDeck1;
+    };
+
+    this.$app.appendChild(addDeckDialog);
+
+    return addDeckDialog;
+  }
+
+  async createDeck(){
     const createDeckContainer = document.createElement('div');
 
     const createDeckTitle = document.createElement('h3');
@@ -183,29 +209,18 @@ export default class App extends HTMLElement {
     createDeckContent.appendChild(submitDeckNameButton);
 
     createDeckContainer.appendChild(createDeckContent);
+    return createDeckContainer;
+  }
 
-    const createDeckButton = await slice.build('Button', {
-      value: "Create new",
-      onClickCallback: () => {
-        addDeckDialog.bodyElement = createDeckContainer;
-      }
-    });
+  selectLanguage () {
+    const selectLangugageContainer = document.createElement('div');
 
-    addDeck1ButtonsContainer.appendChild(importDeckButton);
-    addDeck1ButtonsContainer.appendChild(createDeckButton);
+    const title = document.createElement('h3');
+    title.textContent = 'Select a Language';
+    createDeckTitle.style = 'margin-left: 1em;';
 
-    addDeck1.appendChild(addDeck1Title);
-    addDeck1.appendChild(addDeck1ButtonsContainer);
-    
-    addDeckDialog.bodyElement = addDeck1;
-
-    addDeckDialog.onCloseCallback = () => {
-      addDeckDialog.bodyElement = addDeck1;
-    };
-
-    this.$app.appendChild(addDeckDialog);
-
-    return addDeckDialog;
+    const createDeckContent = document.createElement('div');
+    createDeckContent.classList.add('create-deck-content');
   }
 }
 
