@@ -26,9 +26,9 @@ export default class DeckEdit extends HTMLElement {
     const cardEditor = await slice.build('CardEditor', {});
 
     const cardList = await slice.build('CardList', {
-      onClickCallback: () => {
+      onClickCallback: (word) => {
         cardEditor.selectedCardId = 10;
-        cardEditor.update();
+        cardEditor.update(word);
       }
     });
 
