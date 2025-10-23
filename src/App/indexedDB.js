@@ -95,8 +95,7 @@ export async function getHardWords(name) {
 /*
 Model
 language: {
-    name: "English",
-    id: "en",
+    id: "English",
     deck: {
         "test":{
             difficulty : "get a gf",
