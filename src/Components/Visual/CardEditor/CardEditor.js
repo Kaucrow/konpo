@@ -8,6 +8,11 @@ export default class CardEditor extends HTMLElement {
       default: null, 
       required: false 
     },
+    "onClickCallback": { 
+      type: 'function', 
+      default: 'null', 
+      required: true 
+    },
   }
 
   constructor(props) {
@@ -47,7 +52,7 @@ export default class CardEditor extends HTMLElement {
       icon: {
         name: 'file-check'
       },
-      onClickCallback: () =>{
+      onClickCallback: async () =>{
         if (
           this.frontNameInput.value !='' && 
           this.backNameInput.value!='' &&  
@@ -55,7 +60,8 @@ export default class CardEditor extends HTMLElement {
           this.frontDescriptionInput.value!='' && 
           this.backDescriptionInput.value!=''){
           let deck = this.ls.getItem('deck');
-          adduWord(deck.lang, deck.deck, this.frontNameInput.value, this.backNameInput.value, this.difficultySelector.value, this.frontDescriptionInput.value, this.backDescriptionInput.value)
+          await adduWord(deck.lang, deck.deck, this.frontNameInput.value, this.backNameInput.value, this.difficultySelector.value, this.frontDescriptionInput.value, this.backDescriptionInput.value);
+          this.onClickCallback();
         } else {
           console.log('All inputs must be filled and the star rating must be selected')
         }
