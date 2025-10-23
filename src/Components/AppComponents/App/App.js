@@ -1,3 +1,5 @@
+import { adduDeck, adduLanguage, getDecks, getLanguages } from "../../../App/indexedDB.js";
+
 export default class App extends HTMLElement {
 
   static props = {
@@ -156,38 +158,10 @@ export default class App extends HTMLElement {
       value: "Import"
     });
 
-    const createDeckContainer = document.createElement('div');
-
-    const createDeckTitle = document.createElement('h3');
-    createDeckTitle.textContent = 'Create a new deck';
-    createDeckTitle.style = 'margin-left: 1em;';
-
-    const createDeckContent = document.createElement('div');
-    createDeckContent.classList.add('create-deck-content');
-
-    const createDeckInput = await slice.build('Input', {
-      placeholder: 'Deck name'
-    });
-    createDeckInput.style = 'min-width: 70%;';
-
-    const submitDeckNameButton = await slice.build('Button', {
-      value: 'Create deck',
-      onClickCallback: () => {
-        addDeckDialog.open = false;
-      }
-    });
-    submitDeckNameButton.style = 'width: 100%';
-
-    createDeckContainer.appendChild(createDeckTitle);
-
-    createDeckContent.appendChild(createDeckInput);
-    createDeckContent.appendChild(submitDeckNameButton);
-
-    createDeckContainer.appendChild(createDeckContent);
-
     const createDeckButton = await slice.build('Button', {
       value: "Create new",
-      onClickCallback: () => {
+      onClickCallback: async () => {
+        const createDeckContainer = await this.selectLanguage(addDeckDialog);
         addDeckDialog.bodyElement = createDeckContainer;
       }
     });
@@ -207,6 +181,140 @@ export default class App extends HTMLElement {
     this.$app.appendChild(addDeckDialog);
 
     return addDeckDialog;
+  }
+
+  async createDeck(addDeckDialog, language){
+    const createDeckContainer = document.createElement('div');
+
+    // Title
+    const createDeckTitle = document.createElement('h3');
+    createDeckTitle.textContent = 'Create a new deck';
+    createDeckTitle.style = 'margin-left: 1em;';
+
+    //Existing decks
+    let decks = await getDecks(language);
+    let items = []
+    console.log('hola')
+    console.log(decks);
+    Object.keys(decks).forEach(val =>{
+      let item = {value: val, path:""}
+      items.push(item);
+    })
+
+    const treeview = await slice.build("TreeView", {
+      items: items,
+      onClickCallback: async (item) => {
+          console.log("Clicked:", item.value);
+      }
+    });
+
+    //star Rating
+    const starRatingContainer = document.createElement('div');
+    starRatingContainer.style = 'display:flex; gap:10px;'
+
+    const starRatingTitle = document.createElement('h4');
+    starRatingTitle.textContent = 'Difficulty: ';
+    starRatingTitle.style = 'margin-left: 1em; margin-top:0.5em; font-weight:normal';
+
+    const starRating = await slice.build('StarRating', {});
+
+    starRatingContainer.appendChild(starRatingTitle);
+    starRatingContainer.appendChild(starRating);
+    // Input
+    const createDeckContent = document.createElement('div');
+    createDeckContent.classList.add('create-deck-content');
+
+    const createDeckInput = await slice.build('Input', {
+      placeholder: 'Deck name'
+    });
+    createDeckInput.style = 'min-width: 70%;';
+
+    const submitDeckNameButton = await slice.build('Button', {
+      value: 'Create deck',
+      onClickCallback: () => {
+        if (starRating.value == 0 || createDeckInput.value ==''){
+          console.log('StarRating and Input is needed')
+        }
+        else{
+          adduDeck(language, createDeckInput.value, starRating.value);
+          addDeckDialog.open = false;
+        }
+      }
+    });
+    submitDeckNameButton.style = 'width: 100%';
+
+    //apenddChilds
+
+    createDeckContainer.appendChild(createDeckTitle);
+    createDeckContainer.appendChild(treeview);
+
+    createDeckContainer.appendChild(starRatingContainer);
+
+    createDeckContent.appendChild(createDeckInput);
+    createDeckContent.appendChild(submitDeckNameButton);
+
+    createDeckContainer.appendChild(createDeckContent);
+    return createDeckContainer;
+  }
+
+  async selectLanguage (addDeckDialog) {
+    const selectLanguageContainer = document.createElement('div');
+
+    //title
+    const title = document.createElement('h3');
+    title.textContent = 'Select a Language';
+    title.style = 'margin-left: 1em;';
+    selectLanguageContainer.appendChild(title);
+
+    // content
+    const createLanguageContent = document.createElement('div');
+    createLanguageContent.classList.add('create-deck-content');
+
+    //Languages
+    let languages = await getLanguages();
+    let items = []
+    Object.values(languages).forEach(val =>{
+      let item = {value: val.id, path:""}
+      items.push(item);
+    })
+
+    const treeview = await slice.build("TreeView", {
+      items: items,
+      onClickCallback: async (item) => {
+          console.log("Clicked:", item.value);
+          let decks = await this.createDeck(addDeckDialog, item.value);
+          addDeckDialog.bodyElement = decks;
+      }
+    });
+    selectLanguageContainer.appendChild(treeview);
+    /*Object.values(languages).forEach(val=>{
+      let languageName = document.createElement('h4');
+      languageName.textContent = val.name;
+      languageName.style = 'margin-left: 1em;';
+      selectLanguageContainer.appendChild(languageName);
+    })*/
+
+    // Input
+    const addLanguageInput = await slice.build('Input', {
+      placeholder: 'New Language :D'
+    });
+    addLanguageInput.style = 'min-width: 70%;';
+
+    const submitNewLanguage = await slice.build('Button', {
+      value: 'Add Language',
+      onClickCallback: async () => {
+        await adduLanguage(addLanguageInput.value);
+        let decks = await this.createDeck(addDeckDialog, addLanguageInput.value);
+        addDeckDialog.bodyElement = decks;
+      }
+    });
+
+    // apendChilds
+    createLanguageContent.appendChild(addLanguageInput);
+    createLanguageContent.appendChild(submitNewLanguage);
+
+    selectLanguageContainer.appendChild(createLanguageContent);
+    return selectLanguageContainer;
   }
 }
 
