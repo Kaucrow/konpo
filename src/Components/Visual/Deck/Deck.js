@@ -5,6 +5,11 @@ export default class Deck extends HTMLElement {
       default: null, 
       required: false 
     },
+    "lang": { 
+      type: 'string', 
+      default: null, 
+      required: false 
+    }
   }
 
   constructor(props) {
@@ -40,6 +45,7 @@ export default class Deck extends HTMLElement {
 
     this.appendChild(editDialog);
     this.$button.appendChild(editButton);
+    this.ls = await slice.build('LocalStorageManager');
   }
 
   async createEditDialog() {
@@ -61,7 +67,8 @@ export default class Deck extends HTMLElement {
       value: 'Edit',
       onClickCallback: () => {
         editDialog.open = false;
-        slice.router.navigate(`/deck-edit/${this.name.toLowerCase().replace(/\s+/g, '-')}`);
+        slice.router.navigate(`/deck-edit`);
+        this.ls.setItem('deck', {lang: this.lang, deck: this.name})
       }
     });
 
