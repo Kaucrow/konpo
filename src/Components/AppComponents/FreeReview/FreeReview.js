@@ -1,3 +1,5 @@
+import { getWords } from "../../../App/indexedDB.js";
+
 export default class FreeReview extends HTMLElement {
 
   static props = {
@@ -20,12 +22,19 @@ export default class FreeReview extends HTMLElement {
 
   async init() {
     this.$freeReviewContainer = this.querySelector('.freereview-container');
+    this.ls = await slice.build('LocalStorageManager');
+    let selectedOption = this.ls.getItem('playingDeck');
+
+    let words = await getWords(selectedOption.lang, selectedOption.deck);
+
+    let keys = Object.keys(words);
+    let randomKey = keys[Math.floor(Math.random() * keys.length)];
 
     this.flashcard = await slice.build('Flashcard', {
-      frontName: 'Cool',
-      frontDescription: 'Something really cool',
-      backName: '格好いい',
-      backDescription: '絶対に、このアプリは緒格好いいよ！！！ OwO',
+      frontName: randomKey,
+      frontDescription: words[randomKey].example,
+      backName: words[randomKey].translation,
+      backDescription: words[randomKey].notes,
       width: '60vw',
       height: '60vh',
       styleOverrides: {
@@ -49,7 +58,8 @@ export default class FreeReview extends HTMLElement {
   }
 
   update() {
-    // Component update logic (can be async)
+    this.$freeReviewContainer.innerHTML = ''
+    this.init();
   }
 
   // Add your custom methods here
