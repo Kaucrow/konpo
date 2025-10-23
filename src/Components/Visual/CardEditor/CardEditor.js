@@ -1,3 +1,5 @@
+import { adduWord } from "../../../App/indexedDB.js";
+
 export default class CardEditor extends HTMLElement {
 
   static props = {
@@ -38,10 +40,25 @@ export default class CardEditor extends HTMLElement {
     this.difficultySelector = await slice.build('StarRating', {});
     this.$difficultyContainer.appendChild(this.difficultySelector);
 
+    let ls = await slice.build('LocalStorageManager');
+
     const applyChangesButton = await slice.build('Button', {
       value: 'Save',
       icon: {
         name: 'file-check'
+      },
+      onClickCallback: () =>{
+        if (
+          this.frontNameInput.value !='' && 
+          this.backNameInput.value!='' &&  
+          this.difficultySelector.value!=0 && 
+          this.frontDescriptionInput.value!='' && 
+          this.backDescriptionInput.value!=''){
+          let deck = ls.getItem('deck');
+          adduWord(deck.lang, deck.deck, this.frontNameInput.value, this.backNameInput.value, this.difficultySelector.value, this.frontDescriptionInput.value, this.backDescriptionInput.value)
+        } else {
+          console.log('All inputs must be filled and the star rating must be selected')
+        }
       }
     });
     this.$applyChangesButtonContainer.appendChild(applyChangesButton);
