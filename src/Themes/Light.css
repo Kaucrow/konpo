@@ -6,6 +6,8 @@
   /* Secondary Text Color (Comments, less important info) */
   --font-secondary-color: #859289; /* grey1 */
 
+  --primary-dark-color: #343F44; /* bg1 */
+
   /** primary - Usually for main interactive elements (buttons, links) **/
   --primary-color: #A7C080; /* green - A soft, primary accent */
   --primary-color-rgb: 131, 192, 124;

@@ -21,7 +21,7 @@ export default class Button extends HTMLElement {
         validator: (val) => ['default', 'ghost'].includes(val.toLowerCase()) 
       },
       styleOverrides: {
-        tpye: 'object',
+        type: 'object',
         default: null
       }
    };

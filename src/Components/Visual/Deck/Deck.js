@@ -21,7 +21,7 @@ export default class Deck extends HTMLElement {
       value: this.name,
       variant: 'ghost',
       onClickCallback: () => {
-        slice.router.navigate('/elatla');
+        slice.router.navigate(`/decks/${this.name.toLowerCase().replace(/\s+/g, '-')}`);
       }
     });
 
@@ -61,7 +61,7 @@ export default class Deck extends HTMLElement {
       value: 'Edit',
       onClickCallback: () => {
         editDialog.open = false;
-        slice.router.navigate('/deck-edit?id=0');
+        slice.router.navigate(`/deck-edit/${this.name.toLowerCase().replace(/\s+/g, '-')}`);
       }
     });
 

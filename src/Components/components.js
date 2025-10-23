@@ -1,6 +1,7 @@
 const components = {
   "App": "AppComponents",
   "DeckEdit": "AppComponents",
+  "FreeReview": "AppComponents",
   "HomePage": "AppComponents",
   "Playground": "AppComponents",
   "Button": "Visual",
@@ -13,6 +14,7 @@ const components = {
   "Details": "Visual",
   "Dialog": "Visual",
   "DropDown": "Visual",
+  "Flashcard": "Visual",
   "Grid": "Visual",
   "Icon": "Visual",
   "Input": "Visual",

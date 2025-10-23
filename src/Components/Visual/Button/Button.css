@@ -5,10 +5,7 @@
   --button-border-width: var(--slice-border);
   --button-font-family: var(--font-family);
   --button-font-size: 1em;
-}
-
-.slice_button_container:not:has(.slice_button.variant-ghost) {
-  padding: 10px;
+  --button-default-padding: 10px;
 }
 
 .slice_button.variant-ghost {
@@ -51,6 +48,7 @@
   cursor: pointer;
   overflow: hidden;
   position: relative;
+  padding: var(--button-default-padding);
   background-color: var(--button-primary-color);
   color: var(--button-primary-color-contrast);
   border-radius: var(--button-border-radius);
@@ -58,7 +56,6 @@
   font-family: var(--button-font-family);
   font-weight: bold;
   font-size: var(--button-font-size);
-  padding: 10px;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
 }
