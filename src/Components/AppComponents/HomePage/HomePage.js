@@ -25,7 +25,7 @@ export default class HomePage extends HTMLElement {
       //console.log(value);
       let items = []
       Object.entries(lang.deck).forEach(async ([key, value]) =>{
-        const deckComponent = await slice.build('Deck', {name: key});
+        const deckComponent = await slice.build('Deck', {name: key, lang: lang.id});
         let item = {
           value: deckComponent,
           onClickCallback: () => { console.log(`Opening deck ${key} from ${lang.id}`); }
