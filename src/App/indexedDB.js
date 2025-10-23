@@ -83,6 +83,11 @@ export async function getWords (name, _deck){
     return language.deck[_deck].words;
 }
 
+export async function getWord(name, _deck, word){
+    let language = await languages.getItem(name);
+    return language.deck[_deck].words[word];
+}
+
 //get words by difficulty
 export async function getHardWords(name) {
     let language = await languages.getItem(name);
