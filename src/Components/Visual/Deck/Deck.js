@@ -21,12 +21,14 @@ export default class Deck extends HTMLElement {
   async init() {
     this.$name = this.querySelector('.deck-name');
     this.$button = this.querySelector('.deck-button');
+    this.ls = await slice.build('LocalStorageManager');
 
     const name = await slice.build('Button', {
       value: this.name,
       variant: 'ghost',
-      onClickCallback: () => {
-        slice.router.navigate(`/decks/${this.name.toLowerCase().replace(/\s+/g, '-')}`);
+      onClickCallback: async () => {
+        await this.ls.setItem('playingDeck', {lang: this.lang, deck: this.name});
+        slice.router.navigate(`/decks`);
       }
     });
 
@@ -45,7 +47,6 @@ export default class Deck extends HTMLElement {
 
     this.appendChild(editDialog);
     this.$button.appendChild(editButton);
-    this.ls = await slice.build('LocalStorageManager');
   }
 
   async createEditDialog() {
