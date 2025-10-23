@@ -24,6 +24,8 @@ export default class CardList extends HTMLElement {
 
   update() {
     // Component update logic (can be async)
+    this.$namesContainer.innerHTML = ''
+    this.createCards();
   }
 
   async createCards() {
