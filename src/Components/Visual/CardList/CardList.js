@@ -42,7 +42,7 @@ export default class CardList extends HTMLElement {
         this.selectedCard = card;
         card.classList.add('selected');
 
-        this.onClickCallback();
+        this.onClickCallback(card.textContent);
       });
 
       this.$namesContainer.appendChild(card);
