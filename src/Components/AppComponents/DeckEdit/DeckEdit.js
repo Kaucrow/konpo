@@ -23,7 +23,7 @@ export default class DeckEdit extends HTMLElement {
     this.$cardEditorContainer = this.querySelector('.card-editor-container');
     this.$addCardButtonContainer = this.querySelector('.add-card-button-container');
 
-    const cardEditor = await slice.build('CardEditor', {});
+    const cardEditor = await slice.build('CardEditor', {onClickCallback:()=>{cardList.update()}});
 
     const cardList = await slice.build('CardList', {
       onClickCallback: (word) => {
@@ -37,7 +37,7 @@ export default class DeckEdit extends HTMLElement {
     const addCardBody = document.createElement('div');
     addCardBody.classList.add('add-card-body');
 
-    const addCardEditor = await slice.build('CardEditor', {});
+    const addCardEditor = await slice.build('CardEditor', {onClickCallback:()=>{cardList.update()}});
 
     const addCardBodyTitle = document.createElement('h3');
     addCardBodyTitle.textContent = 'Add card';
