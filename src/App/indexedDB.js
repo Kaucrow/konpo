@@ -32,6 +32,12 @@ export async function getLanguages(){
     return result;
 }
 
+export async function getLanguagesAndDecks(){
+    let _languages = await languages.getAllItems()
+    let result = _languages.map(({id, deck}) => ({id, deck}));
+    return result;
+}
+
 //Decks
 
 export async function adduDeck (lang, name, difficulty) {
