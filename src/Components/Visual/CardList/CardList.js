@@ -1,3 +1,5 @@
+import { getWords } from "../../../App/indexedDB.js";
+
 export default class CardList extends HTMLElement {
 
   static props = {
@@ -16,17 +18,23 @@ export default class CardList extends HTMLElement {
 
   async init() {
     this.$namesContainer = this.querySelector('.names-container');
+    this.ls = await slice.build('LocalStorageManager')
     await this.createCards();
   }
 
   update() {
     // Component update logic (can be async)
+    this.$namesContainer.innerHTML = ''
+    this.createCards();
   }
 
   async createCards() {
-    for(let i = 0; i < 20; i++) {
+    let deck = this.ls.getItem('deck')
+    let words = await getWords(deck.lang, deck.deck);
+    console.log(words);
+    Object.keys(words).forEach(key =>{
       let card = document.createElement('div');
-      card.textContent = `Cool${i}`;
+      card.textContent = `${key}`;
       card.classList.add('card');
 
       card.addEventListener('click', () => {
@@ -36,11 +44,11 @@ export default class CardList extends HTMLElement {
         this.selectedCard = card;
         card.classList.add('selected');
 
-        this.onClickCallback();
+        this.onClickCallback(card.textContent);
       });
 
       this.$namesContainer.appendChild(card);
-    }
+    })
   }
 
   // --- Getters/Setters ---

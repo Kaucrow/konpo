@@ -95,8 +95,8 @@ export default class App extends HTMLElement {
     const multiRoute = await slice.build('MultiRoute', {
       routes: [
         { path: '/', component: 'HomePage' },
-        { path: '/deck-edit/deck-1', component: 'DeckEdit' },
-        { path: '/decks/deck-1', component: 'FreeReview' }
+        { path: '/deck-edit', component: 'DeckEdit' },
+        { path: '/decks', component: 'FreeReview' }
       ]
     });
 
@@ -194,8 +194,6 @@ export default class App extends HTMLElement {
     //Existing decks
     let decks = await getDecks(language);
     let items = []
-    console.log('hola')
-    console.log(decks);
     Object.keys(decks).forEach(val =>{
       let item = {value: val, path:""}
       items.push(item);

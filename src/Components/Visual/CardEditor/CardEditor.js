@@ -1,3 +1,5 @@
+import { adduWord, getWord } from "../../../App/indexedDB.js";
+
 export default class CardEditor extends HTMLElement {
 
   static props = {
@@ -5,6 +7,11 @@ export default class CardEditor extends HTMLElement {
       type: 'string', 
       default: null, 
       required: false 
+    },
+    "onClickCallback": { 
+      type: 'function', 
+      default: 'null', 
+      required: true 
     },
   }
 
@@ -38,22 +45,40 @@ export default class CardEditor extends HTMLElement {
     this.difficultySelector = await slice.build('StarRating', {});
     this.$difficultyContainer.appendChild(this.difficultySelector);
 
+    this.ls = await slice.build('LocalStorageManager');
+
     const applyChangesButton = await slice.build('Button', {
       value: 'Save',
       icon: {
         name: 'file-check'
+      },
+      onClickCallback: async () =>{
+        if (
+          this.frontNameInput.value !='' && 
+          this.backNameInput.value!='' &&  
+          this.difficultySelector.value!=0 && 
+          this.frontDescriptionInput.value!='' && 
+          this.backDescriptionInput.value!=''){
+          let deck = this.ls.getItem('deck');
+          await adduWord(deck.lang, deck.deck, this.frontNameInput.value, this.backNameInput.value, this.difficultySelector.value, this.frontDescriptionInput.value, this.backDescriptionInput.value);
+          this.onClickCallback();
+        } else {
+          console.log('All inputs must be filled and the star rating must be selected')
+        }
       }
     });
     this.$applyChangesButtonContainer.appendChild(applyChangesButton);
   }
 
-  update() {
+  async update(word) {
     if (!this.selectedCardId) return;
-
-    this.frontNameInput.value = 'Cool';
-    this.frontDescriptionInput.value = 'Something really cool';
-    this.backNameInput.value = '格好いい';
-    this.backDescriptionInput.value = '絶対に、このアプリは超格好いいよ！！！ OwO';
+    let deck = this.ls.getItem('deck');
+    let wordInfo = await getWord(deck.lang, deck.deck, word);
+    this.frontNameInput.value = word;
+    this.frontDescriptionInput.value = wordInfo.example;
+    this.backNameInput.value = wordInfo.translation;
+    this.backDescriptionInput.value = wordInfo.notes;
+    this.difficultySelector.value = wordInfo.difficulty;
   }
 
   // --- Getters/Setters ---

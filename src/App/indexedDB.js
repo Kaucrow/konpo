@@ -32,6 +32,12 @@ export async function getLanguages(){
     return result;
 }
 
+export async function getLanguagesAndDecks(){
+    let _languages = await languages.getAllItems()
+    let result = _languages.map(({id, deck}) => ({id, deck}));
+    return result;
+}
+
 //Decks
 
 export async function adduDeck (lang, name, difficulty) {
@@ -77,6 +83,11 @@ export async function getWords (name, _deck){
     return language.deck[_deck].words;
 }
 
+export async function getWord(name, _deck, word){
+    let language = await languages.getItem(name);
+    return language.deck[_deck].words[word];
+}
+
 //get words by difficulty
 export async function getHardWords(name) {
     let language = await languages.getItem(name);
@@ -95,8 +106,7 @@ export async function getHardWords(name) {
 /*
 Model
 language: {
-    name: "English",
-    id: "en",
+    id: "English",
     deck: {
         "test":{
             difficulty : "get a gf",

@@ -1,3 +1,5 @@
+import { getLanguages, getLanguagesAndDecks } from "../../../App/indexedDB.js";
+
 export default class HomePage extends HTMLElement {
   constructor(props) {
     super();
@@ -16,36 +18,26 @@ export default class HomePage extends HTMLElement {
   }
 
   async createDecks() {
-    const testDeck = await slice.build('Deck', { name: 'Deck 1' });
+    let languages = await getLanguagesAndDecks();
 
-    const decks = [
-      {
-        value: 'French',
-        items: [
-          {
-            value: testDeck,
-            onClickCallback: () => { console.log('Opening French deck 1...'); }
-          },
-          {
-            value: 'Deck 2',
-            onClickCallback: () => { console.log('Opening French deck 2...'); }
-          }
-        ]
-      },
-      {
-        value: 'Japanese',
-        items: [
-          {
-            value: 'Deck 1',
-            onClickCallback: () => { console.log('Opening French deck 1...'); }
-          },
-          {
-            value: 'Deck 2',
-            onClickCallback: () => { console.log('Opening French deck 2...'); }
-          }
-        ]
+    const decks = []
+    languages.forEach((lang) =>{
+      //console.log(value);
+      let items = []
+      Object.entries(lang.deck).forEach(async ([key, value]) =>{
+        const deckComponent = await slice.build('Deck', {name: key, lang: lang.id});
+        let item = {
+          value: deckComponent,
+          onClickCallback: () => { console.log(`Opening deck ${key} from ${lang.id}`); }
+        }
+        items.push(item);
+      })
+      const deck ={
+        value: lang.id,
+        items:items
       }
-    ];
+      decks.push(deck);
+    })
 
     const decksList = await slice.build('TreeView', {
       items: decks
